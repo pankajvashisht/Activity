@@ -13,6 +13,14 @@ use Illuminate\Http\Request;
 |
 */
 
+$router->group(['prefix' => 'v1', 'namespace' => 'v1'], function($router) {
+    $router->post('/login', [
+        'as'   => 'user_login',
+        'uses' => 'UserController@userLogin',
+    ]);
+});
+
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
