@@ -19,6 +19,7 @@ class GamesTable extends Migration
             $table->string('image',50)->nullable();
             $table->integer('total_player_play')->nullable();
             $table->integer('total_games')->nullable();
+            $table->integer('min')->nullable();
             $table->timestamps();
         });
     }

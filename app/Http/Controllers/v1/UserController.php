@@ -4,7 +4,6 @@ namespace App\Http\Controllers\v1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\v1\ApiController;
-use Illuminate\Http\JsonResponse;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Validator;
 
@@ -31,12 +30,10 @@ class UserController extends ApiController
         $getUser=$this->user->findUserBySocialId($requestdata['social_id']);
         $success=($getUser)?$this->update($getUser):$this->store($requestdata);
         if($success){
-            dd( $success);
-            return $this->success();
+            return $this->success($success,"Login Successfully");
         }
         return $this->error(403,"Error to Login");      
     }
-
 
     public function store($requestdata){
         $requestdata['authorization_key']=$this->genrateToken();
@@ -44,8 +41,11 @@ class UserController extends ApiController
     }
 
     public function update($user){
-
+        $user->authorization_key=$this->genrateToken();
+        $data['authorization_key']=$user->authorization_key;
+        if($this->user->update($user->id,$data)){
+            return $user;
+        }
+        return false;
     }
-
-
 }

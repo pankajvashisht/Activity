@@ -1,5 +1,6 @@
 import login from '../components/login';
 import  notfound  from '../components/notfound';
+import  test  from '../components/test';
 export default {
     mode:"history",
     routes:[
@@ -12,6 +13,12 @@ export default {
             component:login,
             name:'login'
         },
+        {
+            path:'/test',
+            component:test,
+            name:'test',
+            
+        }
      
 
     ]

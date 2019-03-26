@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class BookingsTable extends Migration
+class UserBookings extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class BookingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bookings', function (Blueprint $table) {
+        Schema::create('user_bookings', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id')->default(0);
-            $table->integer('game_id')->default(0);
-            $table->integer('slot_id')->default(0);
-            $table->json('players')->nullable(); 
-            $table->integer('booking_date')->nullable(); 
+            $table->integer('booking_id');
+            $table->integer('user_id');
+            $table->integer('booking_date');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class BookingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bookings');
+        Schema::dropIfExists('user_bookings');
     }
 }

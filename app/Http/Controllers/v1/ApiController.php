@@ -23,16 +23,16 @@ class ApiController extends Controller
     ];
 
 
-    private  function createResponce(int $status=200 , string $meessage='',$data=[]){
+    private  function createResponce(int $status=200 , $meessage='',$data=[]){
         return ($status>=200 && $status<=299)?$this->setSuccess($meessage,$status,$data):$this->setError($meessage,$status);
     }
 
-    public function success($data=[],int $status=200,string $message=''){
-            $this->createResponcecreateResponce($status,$message,$data);
+    public function success($data=[],string $message='',int $status=200){
+            $this->createResponce($status,$message,$data);
             return new JsonResponse($this->success_responce, $status);
     }
 
-    public function error(int $status=403,string $message=''){
+    public function error(int $status=403,$message=''){
         if($status==400){
             $message=self::badRequestMessage($message);
         }
@@ -42,7 +42,7 @@ class ApiController extends Controller
     }
 
     private static function badRequestMessage($error){
-        $error=json_decode($error,true);
+        return $error=json_decode($error,true);
         $final=[];
         foreach($error as $key => $val){
             $final[$key]=implode(',',$val);
@@ -57,7 +57,7 @@ class ApiController extends Controller
         return $this;
     }
 
-    private function setError(string $meessage,int $status){
+    private function setError( $meessage,int $status){
         $this->error_response['error_message']=$meessage;
         $this->error_response['code']=$status;
         return $this;

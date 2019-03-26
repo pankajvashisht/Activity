@@ -18,6 +18,11 @@ $router->group(['prefix' => 'v1', 'namespace' => 'v1'], function($router) {
         'as'   => 'user_login',
         'uses' => 'UserController@userLogin',
     ]);
+    $router->get('/games','GamesController@get');
+    $router->get('/slot/{game_id}/{date?}','SlotsController@view');
+    $router->post('/create_booking','BookingsController@create');
+    $router->post('/slot','SlotsController@fakeAddData');
+    $router->post('/games','GamesController@addFakeData');
 });
 
 
