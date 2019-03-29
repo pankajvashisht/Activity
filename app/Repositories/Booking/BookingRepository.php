@@ -36,9 +36,23 @@ class BookingRepository implements BookingInterface
     public function findByUserId(int $user_id){
         $current_week= currentWeek();
         return $this->user_booking
+                ->with('user:id,name')
+                ->with('booking')
                 ->where('user_id','=',$user_id)
                 ->whereBetween('booking_date',[$current_week[0],$current_week[1]])
                 ->get()->toArray();
+    }
+
+    public function userBookings(int $user_id){
+         $current_week= currentWeek();
+        return $this->user_booking
+                ->select('booking_id')
+                ->with(['booking' => function ($query) {
+                    $query->with('game:id,name,image')->with('slot:id,to,from')->with('user:id,name,email');
+                 }])
+                 ->whereBetween('booking_date',[$current_week[0],$current_week[1]])
+                 ->where('user_id','=',$user_id)
+                 ->get()->toArray();
     }
 
 
@@ -47,12 +61,28 @@ class BookingRepository implements BookingInterface
             ->where([
                     'bookings.slot_id' => $slot_id,
                     'bookings.game_id' => $game_id,
-                 ])
-              //->where(DB::raw('bookings.game.total_games'),'>=',DB::raw('count(bookings.game_id)'))   
-             ->where(DB::raw("to_char(to_timestamp(booking_date),'yy-mm-dd')") , '=' , date('y-m-d', $date) )   
+                 ])  
+            ->where(DB::raw("to_char(to_timestamp(booking_date),'yy-mm-dd')") , '=' , date('y-m-d', $date) )   
             ->get()->toArray(); 
         if(count($slot) && count($slot) >= $slot[0]['game']['total_games']) return false;
         return true;
+    }
+
+    public function findMemberStatus(array $users){
+        $current_week= currentWeek();
+        $data = $this->user_booking
+                ->with('user:id,name')
+                ->select('user_id')
+                ->whereIn('user_bookings.user_id',$users)
+                ->whereBetween('booking_date',[$current_week[0],$current_week[1]])
+                ->groupBy('user_bookings.user_id')
+                ->havingRaw('count(user_id) = ?', [2])
+                ->get()->toArray();
+        if($data){
+            $data =  array_column($data,'user');
+        }        
+        return $data;    
+        
     }
 
 }

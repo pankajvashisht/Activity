@@ -1,7 +1,8 @@
 <?php 
 namespace App\Repositories\User;
 use App\Models\User;
-use App\Repositories\User\UserInterface;
+use App\Models\UserBooking;
+use DB;
 class UserRepository implements UserInterface
 {
     private $model;
@@ -33,10 +34,40 @@ class UserRepository implements UserInterface
         return $this->model->whereId($id)->update($attributes);
     }
 
-    public function findUserBySocialId($social_id){
-        return $this->model->where('social_id','=',$social_id)->first();
+    public function findUserBySocialIdAndEmail($social_id,$email){
+        return $this->model->where('social_id','=',$social_id)
+        ->orWhere('email','=',$email)
+        ->first();
     }
     public function findUserByAuthKe(string $auth_key){
         return $this->model->where('authroization_key','=',$auth_key)->first();
     }
+    
+    public function findNotBookedUser($user_id){
+        $current_week= currentWeek();
+        return $this->model
+            ->select(DB::raw('users.name,users.id,users.email'))
+            ->where('id','!=',$user_id)
+            ->groupBy(DB::raw('users.name,users.id,users.email'))
+            ->having(DB::raw('(select count(user_id) from 
+            user_bookings where user_id=users.id and booking_date BETWEEN '. $current_week[0].' AND '.$current_week[1].')'),'<',2)
+            ->get();
+    }
+/* 
+     public function findNotBookedUser($user_id){
+        $current_week= currentWeek();
+         return $this->model
+         ->where('('.DB::raw('select count(user_id) from user_bookings where user_id=users.id and booking_date BETWEEN 1553472000 AND 1553904000').')','<','2')
+        ->where('id','!=',$user_id)->get();
+        //select * from users 
+        //where (select count(user_id) from user_bookings where user_id=users.id and booking_date BETWEEN 1553472000 AND 1553904000) < 2  
+        //and id != 2
+          $current_week= currentWeek();
+        return DB::table('users')
+            ->select(DB::raw('users.id,users.name,users.email'))
+             ->where(DB::raw('(select count(user_id) from 
+                user_bookings where user_bookings.user_id=users.id and booking_date BETWEEN '. $current_week[0].' AND '.$current_week[1].')'),'<','2')
+            ->where('id','!=',$user_id)
+            ->get();
+    } */
 }

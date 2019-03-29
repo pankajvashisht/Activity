@@ -19,6 +19,13 @@ class Booking extends Model
     public function userBooking(){
         return $this->hasMany('App\Models\UserBooking','booking_id','id');
     }
+    public function bookings(){
+        return $this->hasMany('App\Models\UserBooking','booking_id','id');
+    }
+
+    public function user(){
+        return $this->belongsTo('App\Models\User');
+    }
 
     public function addBooking(){
         return 'App\Models\UserBooking';

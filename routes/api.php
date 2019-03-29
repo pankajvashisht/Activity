@@ -34,6 +34,14 @@ $router->group(['prefix' => 'v1', 'namespace' => 'v1','middleware'=>'cors'], fun
             'as' => 'create_booking',
             'uses' => 'BookingsController@create'
         ]);
+        $router->get('/bookings/{user_id}',[
+            'as' => 'bookings',
+            'uses' => 'BookingsController@UsersBookings'
+        ]);
+        $router->get('/get_users/{user_id}',[
+            'as' => 'users',
+            'uses' => 'UserController@getUsers'
+        ]);
     });
     $router->post('/slot','SlotsController@fakeAddData');
     $router->post('/games','GamesController@addFakeData');

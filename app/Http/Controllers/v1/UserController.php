@@ -26,8 +26,10 @@ class UserController extends ApiController
              return $this->error(400,$validator->messages());
         }
         $requestdata=$request->all();
-
-        $getUser=$this->user->findUserBySocialId($requestdata['social_id']);
+        if(!IsUcreateEmail($requestdata['email'])){
+            return $this->error(406,"Email not accepted"); 
+        }
+        $getUser=$this->user->findUserBySocialIdAndEmail($requestdata['social_id'],$requestdata['email']);
         $success=($getUser)?$this->update($getUser):$this->store($requestdata);
         if($success){
             return $this->success($success,"Login Successfully");
@@ -50,5 +52,9 @@ class UserController extends ApiController
             return $user;
         }
         return false;
+    }
+
+    public function getUsers($user_id){
+        return $this->success($this->user->findNotBookedUser($user_id),'Friends');
     }
 }

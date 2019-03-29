@@ -21,3 +21,13 @@ function unique_slot($slot,$booking){
         
     }
 }
+
+
+function IsUcreateEmail($email){
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return false;
+    $email=explode('@',$email);
+    if($email[1]=='ucreate.co.in'){
+        return true;
+    }
+    return false;
+}

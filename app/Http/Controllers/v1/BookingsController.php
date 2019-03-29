@@ -34,11 +34,13 @@ class BookingsController extends ApiController
             return $this->error(401,'Your All slots are booked');
         }
         $users=explode(',',$requestdata['players']);
+        if($users=$this->booking->findMemberStatus($users)){
+            return $this->error(403,self::names($users)."These user already booked all slot");
+        }
         $users[]=$requestdata['user_id'];
         if($booking=$this->booking->create($requestdata)){
             $this->addMember($users,$booking->id,$requestdata['booking_date']);
             return $this->success([],'Your Booking create Successfully');
-            
         }
         return $this->error(422,'Error to create booking');
     }
@@ -53,6 +55,19 @@ class BookingsController extends ApiController
             ];
         }
         $this->booking->addMember($add_booking);
+    }
+
+    private static function  names($users){
+        $name='';
+        foreach($users as $val):
+            $name.=$val['name'].', ';
+        endforeach;
+        return $name;
+    }
+
+    public function UsersBookings($user_id){
+        $bookings=$this->booking->userBookings($user_id);
+        return $this->success($bookings,'Users Bookings');
     }
 
 }
