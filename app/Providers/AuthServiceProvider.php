@@ -4,6 +4,8 @@ namespace App\Providers;
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use App\Services\CheckAuth;
+use Illuminate\Http\Request;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -23,8 +25,13 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        $this->app->singleton('UserAuth',function(){
+            return new CheckAuth(Request);
+        });
         $this->registerPolicies();
         Passport::routes();
+       
 
         //
     }

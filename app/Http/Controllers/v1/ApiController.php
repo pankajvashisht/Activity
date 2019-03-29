@@ -10,9 +10,9 @@ class ApiController extends Controller
 {
 
     private $error_response=[
-         'code' => 403 ,
-         'success' => false,
-         'error_message'  => 'error message'
+        'code' => 403 ,
+        'success' => false,
+        'error_message'  => 'error message'
     ];
 
     private $success_responce=[
@@ -66,5 +66,7 @@ class ApiController extends Controller
     public function genrateToken(){
         return sha1(md5(time()));
     }
+
+    
 
 }

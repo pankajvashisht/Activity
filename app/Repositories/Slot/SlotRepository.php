@@ -36,6 +36,5 @@ class SlotRepository implements SlotInterface
         $slots = $this->model->select(['id','from','to'])->get()->toArray();
         $booking= $this->booking->with('game')->where('game_id','=',$game_id)->get();
         return $slots;
-     
     }
 }

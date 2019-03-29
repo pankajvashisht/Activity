@@ -51,7 +51,7 @@ class BookingRepository implements BookingInterface
               //->where(DB::raw('bookings.game.total_games'),'>=',DB::raw('count(bookings.game_id)'))   
              ->where(DB::raw("to_char(to_timestamp(booking_date),'yy-mm-dd')") , '=' , date('y-m-d', $date) )   
             ->get()->toArray(); 
-        if(count($slot)) return false;
+        if(count($slot) && count($slot) >= $slot[0]['game']['total_games']) return false;
         return true;
     }
 

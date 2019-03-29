@@ -8,4 +8,5 @@ interface UserInterface
     public function find(int $id);
     public function findUserBySocialId(string $social_id);
     public function findUserbyEmail(array $input);
+    public function findUserByAuthKe(string $input);
 }

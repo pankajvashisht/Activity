@@ -36,4 +36,7 @@ class UserRepository implements UserInterface
     public function findUserBySocialId($social_id){
         return $this->model->where('social_id','=',$social_id)->first();
     }
+    public function findUserByAuthKe(string $auth_key){
+        return $this->model->where('authroization_key','=',$auth_key)->first();
+    }
 }

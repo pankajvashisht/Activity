@@ -37,7 +37,10 @@ class UserController extends ApiController
 
     public function store($requestdata){
         $requestdata['authorization_key']=$this->genrateToken();
-        return $this->user->create($requestdata);    
+        if($user=$this->user->create($requestdata)){
+            return $this->user->find($user->id);
+        }    
+        return false;
     }
 
     public function update($user){

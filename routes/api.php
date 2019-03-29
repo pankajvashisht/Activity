@@ -13,18 +13,31 @@ use Illuminate\Http\Request;
 |
 */
 
-$router->group(['prefix' => 'v1', 'namespace' => 'v1'], function($router) {
+$router->group(['prefix' => 'v1', 'namespace' => 'v1','middleware'=>'cors'], function($router) {
+    $router->get('/',function(){
+        return "Hello world apis is working";
+    });
     $router->post('/login', [
         'as'   => 'user_login',
         'uses' => 'UserController@userLogin',
     ]);
-    $router->get('/games','GamesController@get');
-    $router->get('/slot/{game_id}/{date?}','SlotsController@view');
-    $router->post('/create_booking','BookingsController@create');
+    $router->group(['middleware' => ['CheckAuthKey']], function ($router) {
+        $router->get('/games',[
+            'as'   => 'games',
+            'uses' => 'GamesController@get'
+        ]);
+        $router->get('/slot/{game_id}/{date?}',[
+            'as' => 'slot',
+            'uses' => 'SlotsController@view'
+        ]);
+        $router->post('/create_booking',[
+            'as' => 'create_booking',
+            'uses' => 'BookingsController@create'
+        ]);
+    });
     $router->post('/slot','SlotsController@fakeAddData');
     $router->post('/games','GamesController@addFakeData');
 });
-
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

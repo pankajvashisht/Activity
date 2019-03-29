@@ -12,6 +12,12 @@ function currentWeek(){
     }else{
         $end = strtotime('-1  day',time());  
     }
-
     return [$start,$end];
+}
+
+
+function unique_slot($slot,$booking){
+    foreach($slot as $key => $value){
+        
+    }
 }
