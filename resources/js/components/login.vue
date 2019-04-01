@@ -1,6 +1,6 @@
 <template>
     <div>
-         <p> hello world {{name}}</p>
+      <button @click="login('github')" class="btn btn-info btn-github">Login with GitHUb</button>
     </div>
 </template>
 
@@ -8,31 +8,34 @@
     
     export default {
         name: 'login',
-        data(){
-           return {
-                 name: 'Welcome to Your Vue.js App'
+        methods:{
+            login:function(provider){
+                this.$auth.authenticate(provider).then( (data) =>  {
+                    console.log(data);
+                    this.$route.push('/home');
+             })
             }
-        },    
-       beforeCreate: function(){ 
-            alert('Before Create');
+        }, 
+        beforeCreate: function(){ 
+           
         },
         created: function(){ 
-         alert('Created');
+         
         },
         beforeMount: function(){ 
-             alert('Before Mount');
+             
         },
         mounted: function(){ 
-            alert('Mounted');
+           
         },
         beforeUpdate: function(){ 
-            alert('Before Update');
+           
         },
         updated: function(){ 
-            alert('Updated');
+          
         },
         beforeDestroy: function(){ 
-            alert('Before Destroy');
+            
         }
 
     }

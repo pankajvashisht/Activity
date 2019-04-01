@@ -21,6 +21,10 @@ $router->group(['prefix' => 'v1', 'namespace' => 'v1','middleware'=>'cors'], fun
         'as'   => 'user_login',
         'uses' => 'UserController@userLogin',
     ]);
+
+    Route::match(['OPTIONS', 'post'],'/auth/github','UserController@gitHub');
+     
+
     $router->group(['middleware' => ['CheckAuthKey']], function ($router) {
         $router->get('/games',[
             'as'   => 'games',

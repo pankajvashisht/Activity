@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\v1\ApiController;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Validator;
+use Socialite;
 
 class UserController extends ApiController
 {
@@ -56,5 +57,15 @@ class UserController extends ApiController
 
     public function getUsers($user_id){
         return $this->success($this->user->findNotBookedUser($user_id),'Friends');
+    }
+
+    public function gitHub(){
+        if(request()->is()=='option') return 1;
+        return Socialite::driver('github')->redirect();
+        //return request();
+    }
+
+    public function gitHubUser(){
+        $user = Socialite::driver('github')->user();
     }
 }

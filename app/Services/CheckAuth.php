@@ -20,14 +20,14 @@ class CheckAuth extends ApiController{
     }
 
     public function authRequest(){
-        if(! $this->request->header('Authroization-key')){
-            return $this->error(403,"Authroization-key is missing");
+        if(! $this->request->header('Authorization-key')){
+            return $this->error(403,"Authorization-key is missing");
         }
-        if($user=User::where('authorization_key','=', $this->request->header('Authroization-key'))->first()){
+        if($user=User::where('authorization_key','=', $this->request->header('Authorization-key'))->first()){
             $_REQUEST['user_id']=$user->id;
             return true;
         }else{
-            return $this->error(401,"Invaid Authroization-key");
+            return $this->error(401,"Invaid Authorization-key");
         }    
     }
     
