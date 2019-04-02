@@ -14,6 +14,7 @@ Route::get('/{any}', function () {
     return view('welcome');
 });
 $router->group([ 'namespace' => 'v1'], function(){
+    Route::get('auth/github', 'UserController@gitHub');
     Route::get('auth/github/callback', 'UserController@gitHubUser');   
 });
  Auth::routes();

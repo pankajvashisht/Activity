@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('social_id');
             $table->string('social_token',255);
             $table->string('social_image')->nullable()->default('');
+            $table->string('remember_token')->nullable()->default('');
             $table->integer('user_type')->default(0);
             $table->string('authorization_key',40)->nullable()->default('');
             $table->timestamps();

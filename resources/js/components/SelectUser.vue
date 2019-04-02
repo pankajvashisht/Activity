@@ -5,7 +5,7 @@
                 <label for="sel1">Select Friends:</label> 
                 <select class="form-control" v-model="player">
                             <option value="0">--Please select Player--</option>
-                        <option v-for="user in users" v-bind:id="user.id" v-bind:value="user.id">{{user.name}}</option>
+                        <option v-for="user in users" v-bind:key="user.id" v-bind:value="user.id">{{user.name}}</option>
                 </select>
             </div>
         </div>

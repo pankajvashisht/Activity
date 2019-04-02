@@ -7,6 +7,7 @@ use App\Http\Controllers\v1\ApiController;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Validator;
 use Socialite;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends ApiController
 {
@@ -60,12 +61,32 @@ class UserController extends ApiController
     }
 
     public function gitHub(){
-        if(request()->is()=='option') return 1;
-        return Socialite::driver('github')->redirect();
-        //return request();
+        return  Socialite::driver('github')->redirect();
     }
 
     public function gitHubUser(){
-        $user = Socialite::driver('github')->user();
+        $requestdata = Socialite::driver('github')->stateless()->user();
+        $toekn=$requestdata->token;
+        $requestdata =  $requestdata->user;
+        if(!IsUcreateEmail($requestdata['email'])){
+            flash_message("Only Ucreate Email Accepted",'d');
+            return back();
+        }
+        $getUser=$this->user->findUserBySocialIdAndEmail($requestdata['id'],$requestdata['email']);
+        $data=[
+            'name' => $requestdata['name'],
+            'email' => $requestdata['email'],
+            'social_id' => $requestdata['id'],
+            'social_token' => $toekn,
+            'social_image' => $requestdata['avatar_url'],
+            'user_type' => 0
+        ];
+        $success=($getUser)?$this->update($getUser):$this->store($data);
+        if($success){
+            Auth::loginUsingId($success->id, true);
+            return redirect('/booking');
+        }
+        flash_message("Error to Login",'d');
+        return back(); 
     }
 }

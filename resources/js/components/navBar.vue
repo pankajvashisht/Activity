@@ -1,0 +1,58 @@
+<template>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+            <!-- Brand -->
+            <img class="img" src="https://pbs.twimg.com/profile_images/1016305949659860993/6aOTJDBj_400x400.jpg" height="40px" width="40px"/>
+
+            <a class="navbar-brand" > Activity</a>
+
+            <!-- Links -->
+            <ul class="navbar-nav float-right">
+                <li class="nav-item">
+                    <router-link class="nav-link" active-class="active"  to="mybooking">Booking</router-link>  
+                </li>
+                <li class="nav-item">
+                     <router-link class="nav-link" active-class="active" to="booking">Create Booking</router-link>  
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <img src="https://pbs.twimg.com/profile_images/1016305949659860993/6aOTJDBj_400x400.jpg" height="30px" width="30px" class="rounded img" alt="Cinque Terre">
+                <div class="card bg-info">
+            <li class="nav-item">
+                    <router-link class="nav-link"  to="profile"><b>{{userInfo.name}}</b></router-link>  
+             </li>
+             </div>
+             <li class="nav-item">
+                    <a class="nav-link"  v-on:click="logout()" ><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>  
+             </li>
+  </ul>
+
+    </nav>
+</template>
+
+<script>
+    
+    export default {
+         name: 'navBar',
+         data:function(){
+             return {
+                 userInfo:[]
+             }
+         },
+         created:function(){
+             this.userInfo = JSON.parse(this.authuser);
+         }
+    }
+
+</script>
+<style>
+.navbar-dark .navbar-brand {
+    color: #fff !important;
+    margin-left: 10px;
+}.img{
+    margin-right: 10px;
+    margin-top: 6px;
+}
+</style>
+
+
+

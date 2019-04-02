@@ -1,7 +1,9 @@
 <template >
   <div class="container">
+       <h5 class="text-center">Book Your Slot</h5>
+        <hr>
   <div class="card">
-  <div class="card-header"> Book Slot </div>
+  <div class="card-header text-center text-white bg-info"> Book Slot </div>
 
   <div class="card-body">
     <div class="row">
@@ -10,7 +12,7 @@
                     <label for="sel1">Select Game:</label>
                     <select class="form-control" required="true" v-on:change="getSlot()" v-model="game_id">
                             <option value="0">--Please select Game--</option>
-                            <option v-for="game in games" v-bind:id="game.id" v-bind:value="game.id">{{game.name}}</option>
+                            <option v-for="game in games" v-bind:key="game.id" v-bind:value="game.id">{{game.name}}</option>
                     </select>
                 </div>
             </div>
@@ -19,23 +21,35 @@
                     <label for="sel1">Select Slot:</label>
                     <select class="form-control" required="true"  v-on:change="getFriend()" v-model="slot_id">
                              <option value="0">--Please select slot--</option>
-                            <option v-for="slot in slots" v-bind:id="slot.id" v-bind:value="slot.id">{{slot.to}}-{{slot.from}}</option>
+                            <option v-for="slot in slots" v-bind:key="slot.id" v-bind:value="slot.id">{{slot.to}}-{{slot.from}}</option>
                     </select>
                 </div>
             </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="sel1">Select Friends:</label> 
-                    <select class="form-control" required="true"  v-model="player[0].id">
-                              <option value="0">--Please select Player--</option>
-                            <option v-for="user in users" v-bind:id="user.id" v-bind:value="user.id">{{user.name}}</option>
-                    </select>
+            <div class="col-6" >
+                
+                <div class="form-group" >
+                   <div v-for="(play, index) in  player"  v-bind:key="index"  >
+                        <label for="sel1">Select Friends <span v-show="min_member>2">{{index+1}} </span> :</label> 
+                        <select class="form-control" required="true"  v-model="play.id">
+                                <option value="0">--Please select Player--</option>
+                                <option v-for="user in users" v-bind:key="user.id" v-bind:value="user.id">{{user.name}}</option>
+                        </select>
+                         <div class="input-group-prepend" v-show="index>0">
+                            <i class="fa fa-trash" v-on:click="remove(index)"  aria-hidden="true"></i>
+                        </div>
+                        
+                    </div>
+                    <div class="form-group" v-show="min_member>2 && selected_game.total_player_play-1>=player.length">
+                       <button style="margin-top: 10px;float: right;" v-on:click="addMore()" class="btn btn-info btn-sm"> +Add More </button>
+                    </div>
                 </div>
             </div>
             <div class="col-6">
-                <div class="form-group" v-show="min_member>2">
-                     <button style="margin-top: 30px;" v-on:click="addMore()" class="btn btn-info btn-sm"> +Add More </button>
-                </div>
+                 <div class="form-group">
+                    <label for="sel1">Select Date:</label> 
+                    <datepicker v-model="booking_date" class="form-control" :disabledDates="state.disabledDates" ></datepicker>
+                 </div>  
+                
             </div>
         </div>
     </div>
@@ -50,6 +64,12 @@
 </template>
 
 <script>
+import Datepicker from 'vuejs-datepicker';
+
+let curr = new Date;
+let first = curr.getDate() - curr.getDay(); 
+let last = first + 6; 
+
 export default {
   name: 'booking',
   data:function() {
@@ -59,7 +79,17 @@ export default {
             slots:[],
             game_id:0,
             slot_id:0,
+            selected_game:[],
             min_member:1,
+            booking_date: new Date(),
+            first: new Date().getDate() - new Date().getDay(),
+            last : this.first+6,
+            state: {
+                disabledDates: {
+                    to: new Date(), // Disable all dates up to specific date
+                    from: new Date(new Date().setDate( new Date().getDate() - new Date().getDay()+6)),
+                }
+            } ,
             player:[
                 {
                    id:0,
@@ -67,14 +97,15 @@ export default {
                 }
             ],
             
-      }
-    
-  },
-  mounted() {
+            }
+  },components: {
+             Datepicker
+  },mounted() {
+      console.log(this.$auth_key);
       this.axios.get('api/v1/games', {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization-key': '78a8a3178e8ed199b8a5323629a949e7bbdc833b'
+                    'Authorization-key': this.$auth_key
                 },
             })
             .then((response) => {
@@ -84,14 +115,13 @@ export default {
             .catch((error) => {
                 console.error(error);
          })
-  },
-  methods:{
+  }, methods:{
       getSlot:function()  {
           this.minMember()
           this.axios.get('api/v1/slot/'+this.game_id, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization-key': '78a8a3178e8ed199b8a5323629a949e7bbdc833b'
+                    'Authorization-key': this.$auth_key
                 },
             })
             .then((response) => {
@@ -105,14 +135,16 @@ export default {
           for(let i=0;i < this.games.length;i++){
               if(this.games[i].id==this.game_id){
                     this.min_member = this.games[i].total_player_play;
+                    this.selected_game=this.games[i];
               }
           }
       },
+
       getFriend:function(){
-           this.axios.get('api/v1/get_users/2', {
+           this.axios.get('api/v1/get_users/'+this.$userId, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization-key': '78a8a3178e8ed199b8a5323629a949e7bbdc833b'
+                    'Authorization-key': this.$auth_key
                 },
             })
             .then((response) => {
@@ -122,16 +154,56 @@ export default {
                 console.error(error);
          })
       },
+
       addMore:function() {
+         if(this.selected_game.total_player_play==this.player.length){
+             return false;
+          }
          this.player.push( {
                    id:0,
                    name:'Please Select' 
-                });
-
-        console.log(this.player);
+        });
       },
-      createBooking:function(e){
-          
+      remove:function(index){
+          this.player.splice(index,1);
+      },
+      createBooking:function(){
+         var bodyFormData = new FormData();
+         if(this.game_id==0){
+             swal("Error", "Please Select Game", "error");
+             return false;
+         }
+         if(this.slot_id==0){
+             swal("Error", "Please Select Slot", "error");
+             return false;
+         }
+         bodyFormData.append('slot_id',this.slot_id);
+         bodyFormData.append('game_id',this.game_id);
+         bodyFormData.append('user_id',this.$userId);
+         bodyFormData.append('booking_date',parseInt(new Date(this.booking_date).getTime()/1000));
+         let users =[];
+         for(let i=0; i<this.player.length; i++){
+             if(this.player[i].id==0 || users.indexOf(this.player[i].id) !='-1' ){
+                  swal("Error", "You select Duplicate friend", "error");
+                 return false;
+             }
+             users.push(this.player[i].id);
+         }
+         bodyFormData.append('players',users.toString());
+         this.axios.post('api/v1/create_booking/', bodyFormData , {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization-key': this.$auth_key
+                },
+            })
+            .then((response) => {
+                swal("Information", "Your Slot Booked Successfully", "success");
+                 this.$router.push({ name: 'mybooking' })
+            })
+            .catch((error) => {
+                console.log(error.response);
+                 swal("Error", error.response.data.error_message, "error");
+         })
       }
   }
 }
