@@ -25,11 +25,11 @@ class SlotsController extends ApiController
     }
 
     public function store(){
-
+        //todo
     }   
     
     public function update(){
-
+        //todo
     }
 
     public function fakeAddData(){

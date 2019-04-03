@@ -51,3 +51,17 @@
          }
     }
 </script>
+<style>
+  .user-detail-col {
+    display: flex;
+    width: 100%;
+    flex-flow: row;
+    margin: 0 0 20px;
+  }
+  .user-detail-col img {
+      margin: 0 15px;
+  }
+  .user-detail-col span {
+      display: flex;
+  }
+</style>
