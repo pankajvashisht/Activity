@@ -2053,7 +2053,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {},
   beforeMount: function beforeMount() {},
   mounted: function mounted() {
-    if (localStorage.getItem("users") != undefined) {
+    if (localStorage.getItem("users") != undefined || localStorage.getItem("users") != 'undefined' || localStorage.getItem("users") != null) {
       this.$router.push({
         name: 'mybooking'
       });
@@ -7142,9 +7142,9 @@ var render = function() {
                         value:
                           _vm.min_member > 2 &&
                           _vm.selected_game.total_player_play - 1 >=
-                            _vm.player.length,
+                            _vm.player.length - 1,
                         expression:
-                          "min_member>2 && selected_game.total_player_play-1>=player.length"
+                          "min_member>2 && selected_game.total_player_play-1>=player.length-1"
                       }
                     ],
                     staticClass: "form-group"
@@ -7429,11 +7429,10 @@ var render = function() {
         _c("img", {
           staticClass: "rounded img",
           attrs: {
-            src:
-              "https://pbs.twimg.com/profile_images/1016305949659860993/6aOTJDBj_400x400.jpg",
+            src: _vm.userInfo.social_image,
             height: "30px",
             width: "30px",
-            alt: "Cinque Terre"
+            alt: _vm.userInfo.name
           }
         }),
         _vm._v(" "),
@@ -7452,31 +7451,27 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              on: {
-                click: function($event) {
-                  return _vm.logout()
-                }
-              }
-            },
-            [
-              _c("i", {
-                staticClass: "fa fa-sign-out",
-                attrs: { "aria-hidden": "true" }
-              }),
-              _vm._v(" Logout")
-            ]
-          )
-        ])
+        _vm._m(0)
       ])
     ]
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "nav-item" }, [
+      _c("a", { staticClass: "nav-link", attrs: { href: "user/logout" } }, [
+        _c("i", {
+          staticClass: "fa fa-sign-out",
+          attrs: { "aria-hidden": "true" }
+        }),
+        _vm._v(" Logout")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -23916,7 +23911,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   router: new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"](_Routes_routes__WEBPACK_IMPORTED_MODULE_6__["default"]),
   mounted: function mounted() {
-    if (localStorage.getItem("users") == undefined) {
+    if (localStorage.getItem("users") == undefined || localStorage.getItem("users") == 'undefined') {
       this.$router.push({
         name: 'login'
       });

@@ -15,14 +15,14 @@
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <img src="https://pbs.twimg.com/profile_images/1016305949659860993/6aOTJDBj_400x400.jpg" height="30px" width="30px" class="rounded img" alt="Cinque Terre">
+                <img v-bind:src="userInfo.social_image" height="30px" width="30px" class="rounded img" :alt="userInfo.name">
                 <div class="card bg-info">
             <li class="nav-item">
                     <router-link class="nav-link"  to="profile"><b>{{userInfo.name}}</b></router-link>  
              </li>
              </div>
              <li class="nav-item">
-                    <a class="nav-link"  v-on:click="logout()" ><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>  
+                    <a class="nav-link" href="user/logout"   ><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>  
              </li>
   </ul>
 

@@ -47,7 +47,11 @@ class UserController extends ApiController
         return false;
     }
 
-    public function update($user){
+    public function update($user,$update=[]){
+        if(count($update)){
+           $data['name'] = $update['name'];    
+           $data['social_image'] =$update['social_image'];    
+        }
         $user->authorization_key=$this->genrateToken();
         $data['authorization_key']=$user->authorization_key;
         if($this->user->update($user->id,$data)){
@@ -74,19 +78,24 @@ class UserController extends ApiController
         }
         $getUser=$this->user->findUserBySocialIdAndEmail($requestdata['id'],$requestdata['email']);
         $data=[
-            'name' => $requestdata['name'],
+            'name' => $requestdata['login'],
             'email' => $requestdata['email'],
             'social_id' => $requestdata['id'],
             'social_token' => $toekn,
             'social_image' => $requestdata['avatar_url'],
             'user_type' => 0
         ];
-        $success=($getUser)?$this->update($getUser):$this->store($data);
+        $success=($getUser)?$this->update($getUser,$data):$this->store($data);
         if($success){
             Auth::loginUsingId($success->id, true);
             return redirect('/booking');
         }
         flash_message("Error to Login",'d');
         return back(); 
+    }
+
+    public function logout(){
+        Auth::logout();
+        return redirect('/login');
     }
 }

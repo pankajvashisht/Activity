@@ -12,6 +12,9 @@
             </script>
          @endif  
          @if(!Auth::user())
+         <script>
+            localStorage.setItem("users", undefined);
+         </script>
             <meta name="user-id" content="null">
             <meta name="auth-key" content="null">
          @endif   

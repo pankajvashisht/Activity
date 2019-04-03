@@ -15,8 +15,11 @@ Route::get('/{any}', function () {
 });
 $router->group([ 'namespace' => 'v1'], function(){
     Route::get('auth/github', 'UserController@gitHub');
-    Route::get('auth/github/callback', 'UserController@gitHubUser');   
+    Route::get('auth/github/callback', 'UserController@gitHubUser');  
+    Route::get('user/logout', 'UserController@logout');  
 });
+
+
  Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');

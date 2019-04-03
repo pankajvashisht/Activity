@@ -31,7 +31,7 @@ let app = new Vue({
     el: '#app',
     router:new VueRouter(route),
     mounted:function(){
-     if(localStorage.getItem("users")==undefined){
+     if(localStorage.getItem("users")==undefined || localStorage.getItem("users")=='undefined' ){
       this.$router.push({ name: 'login' })
      }
     },
