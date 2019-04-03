@@ -74,7 +74,7 @@ class UserController extends ApiController
         $requestdata =  $requestdata->user;
         if(!IsUcreateEmail($requestdata['email'])){
             flash_message("Only Ucreate Email Accepted",'d');
-            return back();
+            return redirect('/login');
         }
         $getUser=$this->user->findUserBySocialIdAndEmail($requestdata['id'],$requestdata['email']);
         $data=[
@@ -91,7 +91,7 @@ class UserController extends ApiController
             return redirect('/booking');
         }
         flash_message("Error to Login",'d');
-        return back(); 
+        return redirect('/login');
     }
 
     public function logout(){
