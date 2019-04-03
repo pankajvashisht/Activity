@@ -32,9 +32,15 @@ class SlotRepository implements SlotInterface
         return $this->model->get();
     }
 
-    public function findByDateAndGame(int $game_id , $date){
+    public function findByDateAndGame(int $game_id , $date=''){
+        if(strlen($date)==0){
+            $date=time();
+        }
         $slots = $this->model->select(['id','from','to'])->get()->toArray();
-        $booking= $this->booking->with('game')->where('game_id','=',$game_id)->get();
+        $booking= $this->booking->select(['slot_id','game_id'])->with('game')
+        ->where(DB::raw("to_char(to_timestamp(booking_date),'yy-mm-dd')") , '=' , date('y-m-d', $date) )
+        ->where('game_id','=',$game_id)->get()->toArray();
+        $slots = unique_slot($slots,$booking);
         return $slots;
     }
 }

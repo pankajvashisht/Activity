@@ -33,9 +33,10 @@ class BookingsController extends ApiController
         if(count($this->booking->findByUserId($requestdata['user_id']))==2){
             return $this->error(401,'Your All slots are booked');
         }
+        $users=[];
         $users=explode(',',$requestdata['players']);
-        if($users=$this->booking->findMemberStatus($users)){
-            return $this->error(403,self::names($users)."These user already booked all slot");
+        if($user=$this->booking->findMemberStatus($users)){
+            return $this->error(403,self::names($user)."These user already booked all slot");
         }
         $users[]=$requestdata['user_id'];
         if($booking=$this->booking->create($requestdata)){

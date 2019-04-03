@@ -17,11 +17,37 @@ function currentWeek(){
 
 
 function unique_slot($slot,$booking){
+    $final=[];
+   
     foreach($slot as $key => $value){
-        
+        if(!check_slot($value['id'],$booking)){
+            $final[]=$value;
+        }    
     }
+    return $final;
 }
 
+function check_slot($slot,$booking){
+    $booked_slot= array_column($booking,'slot_id');
+    if(in_array($slot,$booked_slot)){
+        foreach($booking as $key => $value){
+            if($value['game']['total_games'] == slot($booking,$slot)){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function slot($booking,$slot_id){
+    $count=0;
+    foreach ($booking as $key => $value) {
+        if($value['slot_id']==$slot_id){
+            $count++;
+        }
+    }
+    return $count;
+}
 
 function IsUcreateEmail($email){
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return false;

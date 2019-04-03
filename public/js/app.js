@@ -2093,6 +2093,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "mybooking",
   data: function data() {
@@ -7141,10 +7147,10 @@ var render = function() {
                         rawName: "v-show",
                         value:
                           _vm.min_member > 2 &&
-                          _vm.selected_game.total_player_play - 1 >=
-                            _vm.player.length - 1,
+                          _vm.selected_game.total_player_play - 2 >=
+                            _vm.player.length,
                         expression:
-                          "min_member>2 && selected_game.total_player_play-1>=player.length-1"
+                          "min_member>2 && selected_game.total_player_play-2>=player.length"
                       }
                     ],
                     staticClass: "form-group"
@@ -7333,20 +7339,59 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c("b", [_vm._v("Booked By ")]),
-            _vm._v(" : " + _vm._s(booking.booking.user.name) + "\n          "),
-            _c("hr"),
-            _vm._v(" "),
-            _c("b", [_vm._v("Slots ")]),
-            _vm._v(
-              " : " +
-                _vm._s(booking.booking.slot.to) +
-                " - " +
-                _vm._s(booking.booking.slot.from) +
-                "\n      "
-            )
-          ])
+          _c(
+            "div",
+            { staticClass: "card-body" },
+            [
+              _c("b", [_vm._v("Booked By ")]),
+              _vm._v(
+                " : " + _vm._s(booking.booking.user.name) + "\n          "
+              ),
+              _c("hr"),
+              _vm._v(" "),
+              _c("b", [_vm._v("Slots ")]),
+              _vm._v(
+                " : " +
+                  _vm._s(booking.booking.slot.to) +
+                  " - " +
+                  _vm._s(booking.booking.slot.from) +
+                  "\n          "
+              ),
+              _c("hr"),
+              _vm._v(" "),
+              _c("Span", { staticClass: "text-center" }, [
+                _c("h4", [_vm._v("Players")])
+              ]),
+              _vm._v(" "),
+              _vm._l(booking.players, function(user, index) {
+                return _c(
+                  "div",
+                  { key: user.id, staticClass: "user-detail-col" },
+                  [
+                    _c("span", { staticClass: "user-count" }, [
+                      _vm._v(_vm._s(index + 1) + ") ")
+                    ]),
+                    _vm._v(" "),
+                    _c("span", [
+                      _c("img", {
+                        staticClass: "rounded",
+                        attrs: {
+                          src: user.social_image,
+                          height: "30px",
+                          width: "30px"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("h6", [_vm._v(_vm._s(user.name))])
+                    ]),
+                    _vm._v(" "),
+                    _c("br")
+                  ]
+                )
+              })
+            ],
+            2
+          )
         ])
       })
     ],

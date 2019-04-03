@@ -11,6 +11,12 @@
               <b>Booked By </b> : {{booking.booking.user.name}}
               <hr>
               <b>Slots </b> : {{booking.booking.slot.to}} - {{booking.booking.slot.from}}
+              <hr>
+              <Span class="text-center"><h4>Players</h4></Span>
+              <div class="user-detail-col" v-for="(user,index) in booking.players" v-bind:key="user.id">
+                  <span class="user-count">{{index+1}}) </span> <span><img class="rounded" v-bind:src="user.social_image" height="30px" width="30px"/> <h6>{{user.name}}</h6></span> <br>
+                 
+              </div>
           </div>
       </div>
      </div> 

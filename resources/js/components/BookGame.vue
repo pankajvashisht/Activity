@@ -39,7 +39,7 @@
                         </div>
                         
                     </div>
-                    <div class="form-group" v-show="min_member>2 && selected_game.total_player_play-1>=player.length-1">
+                    <div class="form-group" v-show="min_member>2 && selected_game.total_player_play-2>=player.length">
                        <button style="margin-top: 10px;float: right;" v-on:click="addMore()" class="btn btn-info btn-sm"> +Add More </button>
                     </div>
                 </div>
