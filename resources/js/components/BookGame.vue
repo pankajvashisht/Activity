@@ -65,10 +65,8 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker';
-
-let curr = new Date;
-let first = curr.getDate() - curr.getDay(); 
-let last = first + 6; 
+import axios from 'axios';
+ 
 
 export default {
   name: 'booking',
@@ -190,7 +188,7 @@ export default {
              users.push(this.player[i].id);
          }
          bodyFormData.append('players',users.toString());
-         this.axios.post('api/v1/create_booking/', bodyFormData , {
+        axios.post('api/v1/create_booking/', bodyFormData , {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization-key': this.$auth_key
