@@ -188,7 +188,7 @@ export default {
              users.push(this.player[i].id);
          }
          bodyFormData.append('players',users.toString());
-        axios.post('api/v1/create_booking/', bodyFormData , {
+        axios.post('api/v1/create_booking', bodyFormData , {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization-key': this.$auth_key

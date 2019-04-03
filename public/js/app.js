@@ -1960,7 +1960,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       bodyFormData.append('players', users.toString());
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('api/v1/create_booking/', bodyFormData, {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('api/v1/create_booking', bodyFormData, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization-key': this.$auth_key
