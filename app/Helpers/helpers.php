@@ -22,7 +22,7 @@ function unique_slot($slot,$booking,$date){
         if(!check_slot($value['id'],$booking)){
             if(date('y-m-d')==date('y-m-d',$date)){
                 $current_hr = date('H:i');
-                if(strtotime($value['to'] > strtotime($current_hr))){
+                if(strtotime($value['to']) > strtotime($current_hr)){
                     $final[]=$value;
                 }
             }else{
