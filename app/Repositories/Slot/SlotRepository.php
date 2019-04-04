@@ -37,7 +37,7 @@ class SlotRepository implements SlotInterface
         $booking= $this->booking->select(['slot_id','game_id'])->with('game')
         ->where(DB::raw("to_char(to_timestamp(booking_date),'yy-mm-dd')") , '=' , date('y-m-d', $date) )
         ->where('game_id','=',$game_id)->get()->toArray();
-        $slots = unique_slot($slots,$booking);
+        $slots = unique_slot($slots,$booking,$date);
         return $slots;
     }
 }

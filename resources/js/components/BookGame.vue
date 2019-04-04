@@ -228,7 +228,7 @@ export default {
   .form-box select {
       margin: 0 10px 0;
   }
-  .vdp-datepicker {
+  .vdp-datepicker *{
       border: 0;
   }
 </style>

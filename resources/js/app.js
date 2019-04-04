@@ -18,10 +18,10 @@ Vue.use(VueAuthenticate, {
   }
 })
 Vue.use(VueRouter);
-if(document.querySelector("meta[name='user-id']").getAttribute('content') !=null){
-    Vue.prototype.$userId = document.querySelector("meta[name='user-id']").getAttribute('content');
-    Vue.prototype.$auth_key = document.querySelector("meta[name='auth-key']").getAttribute('content');
-}
+
+Vue.prototype.$userId = document.querySelector("meta[name='user-id']").getAttribute('content');
+Vue.prototype.$auth_key = document.querySelector("meta[name='auth-key']").getAttribute('content');
+
 if(localStorage.getItem("users")!= undefined){
   Vue.prototype.authuser=localStorage.getItem("users");
 }
@@ -31,7 +31,7 @@ let app = new Vue({
     el: '#app',
     router:new VueRouter(route),
     mounted:function(){
-      if(localStorage.getItem("users")==undefined || localStorage.getItem("users")=='undefined' || localStorage.getItem("users")=='' ){
+      if( this.$userId=='null' || this.$auth_key=='null'){
         this.$router.push({ name: 'login' })
       }
     },

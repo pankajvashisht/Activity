@@ -45,13 +45,13 @@
 
 </script>
 <style>
-.navbar-dark .navbar-brand {
-    color: #fff !important;
-    margin-left: 10px;
-}.img{
-    margin-right: 10px;
-    margin-top: 6px;
-}
+    .navbar-dark .navbar-brand {
+        color: #fff !important;
+        margin-left: 10px;
+    }.img{
+        margin-right: 10px;
+        margin-top: 6px;
+    }
 </style>
 
 

@@ -32,22 +32,22 @@
             
         },
          mounted: function(){ 
-             this.axios.get('api/v1/bookings/'+this.$userId, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization-key': this.$auth_key
-                },
+            this.axios.get('api/v1/bookings/'+this.$userId, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization-key': this.$auth_key
+                    },
+                })
+                .then((response) => {
+                    this.mybooking= response.data.body;
+                })
+                .catch((error) => {
+                    console.error(error);
             })
-            .then((response) => {
-               this.mybooking= response.data.body;
-            })
-            .catch((error) => {
-                console.error(error);
-             })
          },methods:{
              timeToDate:function(date){
                  return new Date(date*1000)
-             }
+             },
          }
     }
 </script>

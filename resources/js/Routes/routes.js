@@ -11,14 +11,7 @@ export default {
             path:"*",
             component:notfound
         },
-        {
-            path:'/login',
-            component:login,
-            name:'login',
-            meta: {
-                auth: true
-            }
-        },
+        
         {
             path:'/test',
             component:test,
@@ -48,7 +41,15 @@ export default {
             meta:{
                 auth :true
             }
-        }
+            
+        },{
+            path:'/login',
+            component:login,
+            name:'login',
+            meta: {
+                auth: true
+            }
+        },
      
 
     ]

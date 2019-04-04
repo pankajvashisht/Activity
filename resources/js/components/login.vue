@@ -31,7 +31,7 @@
              
         },
         mounted: function(){ 
-           if(localStorage.getItem("users")!=undefined || localStorage.getItem("users")!='undefined' || localStorage.getItem("users")!=null  ){
+           if(this.$userId!='null'){
                  this.$router.push({ name: 'mybooking' })
             }
         },

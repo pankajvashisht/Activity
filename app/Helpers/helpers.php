@@ -16,12 +16,19 @@ function currentWeek(){
 }
 
 
-function unique_slot($slot,$booking){
+function unique_slot($slot,$booking,$date){
     $final=[];
    
     foreach($slot as $key => $value){
         if(!check_slot($value['id'],$booking)){
-            $final[]=$value;
+            if(date('y-m-d')==date('y-m-d',$date)){
+                $current_hr = date('H:i');
+                if(strtotime($current_hr) < strtotime($value['to'])){
+                    $final[]=$value;
+                }
+            }else{
+                $final[]=$value;
+            }
         }    
     }
     return $final;
