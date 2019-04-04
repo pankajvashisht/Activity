@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <div class="form-group" v-show="min_member>2 && selected_game.total_player_play-2>=player.length">
-                       <button style="margin-top: 10px;float: right;" v-on:click="addMore()" class="btn btn-info btn-sm"> +Add More </button>
+                       <button style="margin-top: 10px;float: right;"  v-on:click="addMore()" class="btn btn-info btn-sm"> +Add More </button>
                     </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
  
   
     <div class="card-footer text-center">
-        <button v-on:click="createBooking()" class="btn btn-info btn-primary">Save</button>
+        <button v-on:click="createBooking()" :disabled="disabled" class="btn btn-info btn-primary">Save <i class="fa fa-spinner fa-spin" v-show="disabled" ></i>  </button>
 
    </div>
    </div>
@@ -76,6 +76,7 @@ export default {
             slots:[],
             game_id:0,
             slot_id:0,
+            disabled:false,
             selected_game:[],
             min_member:1,
             booking_date: new Date(),
@@ -188,6 +189,7 @@ export default {
              users.push(this.player[i].id);
          }
          bodyFormData.append('players',users.toString());
+         this.disabled=true;
          this.axios.post('api/v1/create_booking', bodyFormData , {
                 headers: {
                     'Content-Type': 'application/json',
@@ -196,9 +198,11 @@ export default {
             })
             .then((response) => {
                 swal("Information", "Your Slot Booked Successfully", "success");
+                this.disabled=false;
                  this.$router.push({ name: 'mybooking' })
             })
             .catch((error) => {
+                 this.disabled=false;
                 console.log(error.response);
                  swal("Error", error.response.data.error_message, "error");
          })
@@ -206,6 +210,8 @@ export default {
   }
 }
 </script>
+
+
 <style>
   .user-detail-col {
     display: flex;
