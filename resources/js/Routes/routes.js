@@ -32,21 +32,21 @@ export default {
             component:callback,
             name:'callback',
             meta:{
-                auth :false
+                auth :true
             }
         },{
             path :'/booking',
             component:Booking,
             name:'booking',
             meta:{
-                auth :false
+                auth :true
             }
         },{
             path :'/mybooking',
             component:MyBooking,
             name:'mybooking',
             meta:{
-                auth :false
+                auth :true
             }
         }
      

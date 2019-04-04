@@ -17,6 +17,13 @@
                 </div>
             </div>
             <div class="col-6">
+                 <div class="form-group">
+                    <label for="sel1">Select Date:</label> 
+                    <datepicker @closed="getSlot" v-model="booking_date" class="form-control" :disabledDates="state.disabledDates" ></datepicker>
+                 </div>  
+                
+            </div>
+            <div class="col-6">
                 <div class="form-group">
                     <label for="sel1">Select Slot:</label>
                     <select class="form-control" required="true"  v-on:change="getFriend()" v-model="slot_id">
@@ -28,29 +35,24 @@
             <div class="col-6" >
                 
                 <div class="form-group" >
-                   <div v-for="(play, index) in  player"  v-bind:key="index"  >
+                   <div class="select-friend-box" v-for="(play, index) in  player"  v-bind:key="index"  >
                         <label for="sel1">Select Friends <span v-show="min_member>2">{{index+1}} </span> :</label> 
-                        <select class="form-control" required="true"  v-model="play.id">
-                                <option value="0">--Please select Player--</option>
-                                <option v-for="user in users" v-bind:key="user.id" v-bind:value="user.id">{{user.name}}</option>
-                        </select>
-                         <div class="input-group-prepend" v-show="index>0">
-                            <i class="fa fa-trash" v-on:click="remove(index)"  aria-hidden="true"></i>
+                        <div class="form-box">
+                            <select class="form-control" required="true"  v-model="play.id">
+                                    <option value="0">--Please select Player--</option>
+                                    <option v-for="user in users" v-bind:key="user.id" v-bind:value="user.id">{{user.name}}</option>
+                            </select>
+                            <div class="input-group-prepend" v-show="index>0">
+                                <i class="fa fa-trash" v-on:click="remove(index)"  aria-hidden="true"></i>
+                            </div>
                         </div>
-                        
                     </div>
                     <div class="form-group" v-show="min_member>2 && selected_game.total_player_play-2>=player.length">
                        <button style="margin-top: 10px;float: right;" v-on:click="addMore()" class="btn btn-info btn-sm"> +Add More </button>
                     </div>
                 </div>
             </div>
-            <div class="col-6">
-                 <div class="form-group">
-                    <label for="sel1">Select Date:</label> 
-                    <datepicker v-model="booking_date" class="form-control" :disabledDates="state.disabledDates" ></datepicker>
-                 </div>  
-                
-            </div>
+            
         </div>
     </div>
  
@@ -65,9 +67,6 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker';
-import axios from 'axios';
- 
-
 export default {
   name: 'booking',
   data:function() {
@@ -85,7 +84,7 @@ export default {
             state: {
                 disabledDates: {
                     to: new Date(), // Disable all dates up to specific date
-                    from: new Date(new Date().setDate( new Date().getDate() - new Date().getDay()+6)),
+                    from: new Date(new Date().setDate( new Date().getDate() - new Date().getDay()+5)),
                 }
             } ,
             player:[
@@ -115,8 +114,9 @@ export default {
          })
   }, methods:{
       getSlot:function()  {
+          let timestamp = parseInt(new Date(this.booking_date).getTime()/1000);
           this.minMember()
-          this.axios.get('api/v1/slot/'+this.game_id, {
+          this.axios.get('api/v1/slot/'+this.game_id+'/'+timestamp, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization-key': this.$auth_key
@@ -181,14 +181,14 @@ export default {
          bodyFormData.append('booking_date',parseInt(new Date(this.booking_date).getTime()/1000));
          let users =[];
          for(let i=0; i<this.player.length; i++){
-             if(this.player[i].id==0 || users.indexOf(this.player[i].id) !='-1' ){
+             if(this.player[i].id == 0 || users.indexOf(this.player[i].id) !='-1' ){
                   swal("Error", "You select Duplicate friend", "error");
                  return false;
              }
              users.push(this.player[i].id);
          }
          bodyFormData.append('players',users.toString());
-        axios.post('api/v1/create_booking', bodyFormData , {
+         this.axios.post('api/v1/create_booking', bodyFormData , {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization-key': this.$auth_key
@@ -206,3 +206,29 @@ export default {
   }
 }
 </script>
+<style>
+  .user-detail-col {
+    display: flex;
+    width: 100%;
+    flex-flow: row;
+    margin: 0 0 20px;
+  }
+  .user-detail-col img {
+      margin: 0 15px;
+  }
+  .user-detail-col span {
+      display: flex;
+  }
+  .select-friend-box {
+      margin: 15px 0 0;
+  }
+  .form-box {
+      display: flex;
+  }
+  .form-box select {
+      margin: 0 10px 0;
+  }
+  .vdp-datepicker {
+      border: 0;
+  }
+</style>

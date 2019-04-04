@@ -31,18 +31,12 @@ let app = new Vue({
     el: '#app',
     router:new VueRouter(route),
     mounted:function(){
-     if(localStorage.getItem("users")==undefined || localStorage.getItem("users")=='undefined' ){
-      this.$router.push({ name: 'login' })
-     }
+      if(localStorage.getItem("users")==undefined || localStorage.getItem("users")=='undefined' || localStorage.getItem("users")=='' ){
+        this.$router.push({ name: 'login' })
+      }
     },
     components:{
       navbar:navBar
-    },
-    method:{
-      logout:function(){
-          localStorage.removeItem('users');
-          this.$router.push({ name: 'login' })
-      }
-  }
+    }
    
 })
