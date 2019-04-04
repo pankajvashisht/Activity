@@ -7234,7 +7234,14 @@ var render = function() {
                             _vm._l(_vm.users, function(user) {
                               return _c(
                                 "option",
-                                { key: user.id, domProps: { value: user.id } },
+                                {
+                                  key: user.id,
+                                  style: {
+                                    backgroundImage:
+                                      "url(" + user.social_img + ")"
+                                  },
+                                  domProps: { value: user.id }
+                                },
                                 [_vm._v(_vm._s(user.name))]
                               )
                             })

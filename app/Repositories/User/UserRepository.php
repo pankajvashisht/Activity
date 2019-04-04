@@ -46,28 +46,12 @@ class UserRepository implements UserInterface
     public function findNotBookedUser($user_id){
         $current_week= currentWeek();
         return $this->model
-            ->select(DB::raw('users.name,users.id,users.email'))
+            ->select(DB::raw('users.name,users.id,users.email,users.social_image'))
             ->where('id','!=',$user_id)
             ->groupBy(DB::raw('users.name,users.id,users.email'))
             ->having(DB::raw('(select count(user_id) from 
             user_bookings where user_id=users.id and booking_date BETWEEN '. $current_week[0].' AND '.$current_week[1].')'),'<',2)
             ->get();
     }
-/* 
-     public function findNotBookedUser($user_id){
-        $current_week= currentWeek();
-         return $this->model
-         ->where('('.DB::raw('select count(user_id) from user_bookings where user_id=users.id and booking_date BETWEEN 1553472000 AND 1553904000').')','<','2')
-        ->where('id','!=',$user_id)->get();
-        //select * from users 
-        //where (select count(user_id) from user_bookings where user_id=users.id and booking_date BETWEEN 1553472000 AND 1553904000) < 2  
-        //and id != 2
-          $current_week= currentWeek();
-        return DB::table('users')
-            ->select(DB::raw('users.id,users.name,users.email'))
-             ->where(DB::raw('(select count(user_id) from 
-                user_bookings where user_bookings.user_id=users.id and booking_date BETWEEN '. $current_week[0].' AND '.$current_week[1].')'),'<','2')
-            ->where('id','!=',$user_id)
-            ->get();
-    } */
+
 }
