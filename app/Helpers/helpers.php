@@ -59,7 +59,7 @@ function slot($booking,$slot_id){
 function IsUcreateEmail($email){
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return false;
     $email=explode('@',$email);
-    if($email[1]=='ucreate.co.in'){
+    if($email[1]=='ucreate.co.in' || $email[1]=='ucreate.it'){
         return true;
     }
     return false;
