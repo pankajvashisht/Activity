@@ -21,8 +21,7 @@ function unique_slot($slot,$booking,$date){
     foreach($slot as $key => $value){
         if(!check_slot($value['id'],$booking)){
             if(date('y-m-d')==date('y-m-d',$date)){
-                $current_hr = date('H:i');
-                if(strtotime($value['to']) > strtotime($current_hr)){
+                if(strtotime($value['to']) > time()){
                     $final[]=$value;
                 }
             }else{

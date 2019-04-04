@@ -40,7 +40,7 @@
                         <div class="form-box">
                             <select class="form-control" required="true"  v-model="play.id">
                                     <option value="0">--Please select Player--</option>
-                                    <option v-for="user in users" v-bind:key="user.id" v-bind:style="{ backgroundImage: 'url(' + user.social_image + ')' }" v-bind:value="user.id">{{user.name}}</option>
+                                    <option v-for="user in users" v-bind:key="user.id" data-class="avatar" v-bind:style="{ backgroundImage: 'url(' + user.social_image + ')' }" v-bind:value="user.id">{{user.name}}</option>
                             </select>
                             <div class="input-group-prepend" v-show="index>0">
                                 <i class="fa fa-trash" v-on:click="remove(index)"  aria-hidden="true"></i>
@@ -237,4 +237,8 @@ export default {
   .vdp-datepicker *{
       border: 0;
   }
+  option.avatar {
+      background-repeat: no-repeat !important;
+      padding-left: 20px;
+ }
 </style>
