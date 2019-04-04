@@ -4,6 +4,8 @@ import  test  from '../components/test';
 import callback from '../components/callback';
 import Booking from '../components/BookGame';
 import MyBooking from '../components/myBooking';
+import BookedSlots from '../components/BookedSlots.vue';
+import Rules from '../components/Rules'
 export default {
     mode:"history",
     routes:[
@@ -49,7 +51,21 @@ export default {
             meta: {
                 auth: true
             }
-        },
+        },{
+            path:'/booked_slots',
+            component:BookedSlots,
+            name:'booked_slots',
+            meta: {
+                auth: true
+            }
+        },{
+            path:'/rules',
+            component:Rules,
+            name:'rules',
+            meta: {
+                auth: true
+            }
+        }
      
 
     ]

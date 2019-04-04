@@ -10,7 +10,7 @@
           <div class="card-body">
               <b>Booked By </b> : {{booking.booking.user.name}}
               <hr>
-              <b>Slots </b> : {{booking.booking.slot.to}} - {{booking.booking.slot.from}}
+              <b>Slot </b> : {{booking.booking.slot.to}} - {{booking.booking.slot.from}}
               <hr>
               <Span class="text-center"><h4>Players</h4></Span>
               <div class="user-detail-col" v-for="(user,index) in booking.players" v-bind:key="user.id">

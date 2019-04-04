@@ -71,4 +71,9 @@ class BookingsController extends ApiController
         return $this->success($bookings,'Users Bookings');
     }
 
+    public function AllBookings(){
+        $bookings=$this->booking->AllBookings();
+        return $this->success($bookings,'Users Bookings');
+    }
+
 }

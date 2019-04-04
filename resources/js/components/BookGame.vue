@@ -1,4 +1,4 @@
-<template >
+<template>
   <div class="container">
        <h5 class="text-center">Book Your Slot</h5>
         <hr>
@@ -36,7 +36,7 @@
                 
                 <div class="form-group" >
                    <div class="select-friend-box" v-for="(play, index) in  player"  v-bind:key="index"  >
-                        <label for="sel1">Select Friends <span v-show="min_member>2">{{index+1}} </span> :</label> 
+                        <label for="sel1">Select Friend <span v-show="min_member>2">{{index+1}} </span> :</label> 
                         <div class="form-box">
                             <select class="form-control" required="true"  v-model="play.id">
                                     <option value="0">--Please select Player--</option>

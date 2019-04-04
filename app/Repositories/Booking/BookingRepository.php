@@ -70,6 +70,33 @@ class BookingRepository implements BookingInterface
     }
 
 
+    public function AllBookings(){
+        $current_week= currentWeek();
+        $time = strtotime('-1 day',time());
+        $booking = $this->user_booking
+               ->select('booking_id')
+               ->with(['booking' => function ($query) {
+                   $query->with('game:id,name,image')->with('slot:id,to,from')->with('user:id,name,email');
+                }])
+                ->whereBetween('booking_date',[$time,$current_week[1]])
+                ->groupBy('booking_id')
+                ->get()->toArray();
+         if(count($booking)>0){       
+           $booking_ids=[];       
+           foreach($booking as $val):
+               $booking_ids[]=$val['booking_id'];
+           endforeach; 
+           $users = $this->user_booking->with('user:id,email,name,social_image')
+           ->whereIn('booking_id',$booking_ids)
+           ->get()->toArray();
+           foreach($booking as $key => $value){
+               $booking[$key]['players'] = self::getBookinguser($users,$value['booking_id']); 
+           }
+         }
+         return $booking;      
+   }
+
+
     private static function getBookinguser(array $users,int $booking_id ){
         $final=[];
         foreach ($users as $key => $value) {

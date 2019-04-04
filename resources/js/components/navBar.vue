@@ -8,10 +8,16 @@
             <!-- Links -->
             <ul class="navbar-nav float-right">
                 <li class="nav-item">
-                    <router-link class="nav-link" active-class="active"  to="mybooking">Booking</router-link>  
+                    <router-link class="nav-link" active-class="active"  to="mybooking">My Booking</router-link>  
+                </li>
+                 <li class="nav-item">
+                    <router-link class="nav-link" active-class="active"  to="booked_slots">Booked Slots</router-link>  
                 </li>
                 <li class="nav-item">
                      <router-link class="nav-link" active-class="active" to="booking">Create Booking</router-link>  
+                </li>
+                <li class="nav-item">
+                     <router-link class="nav-link" active-class="active" to="rules"> Booking & Games Rules </router-link>  
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">

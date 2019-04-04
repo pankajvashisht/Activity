@@ -29,19 +29,23 @@ $router->group(['prefix' => 'v1', 'namespace' => 'v1','middleware'=>'cors'], fun
             'as'   => 'games',
             'uses' => 'GamesController@get'
         ]);
-        $router->get('/slot/{game_id}/{date?}',[
+        $router->get('/slot/{game_id}/{date?}', [
             'as' => 'slot',
             'uses' => 'SlotsController@view'
         ]);
-        $router->post('/create_booking',[
+        $router->post('/create_booking', [
             'as' => 'create_booking',
             'uses' => 'BookingsController@create'
         ]);
-        $router->get('/bookings/{user_id}',[
+        $router->get('/bookings/{user_id}', [
             'as' => 'bookings',
             'uses' => 'BookingsController@UsersBookings'
         ]);
-        $router->get('/get_users/{user_id}',[
+        $router->get('/all_bookings', [
+            'as' => 'all_bookings',
+            'uses' => 'BookingsController@AllBookings'
+        ]);
+        $router->get('/get_users/{user_id}', [
             'as' => 'users',
             'uses' => 'UserController@getUsers'
         ]);
