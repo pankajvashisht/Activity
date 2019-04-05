@@ -1,12 +1,17 @@
 <template>
-    <div class="card">
-        <div class="card-header text-center bg-info text-white">Ucreate Game Slot Booking</div>
-         <div style="padding: 12%;padding-left: 44%;">
-            <div class="card-body">
-                 <a href="/auth/github" class="btn btn-info btn-github"><i class="fa fa-github"></i> Login with Github </a>
-            </div> 
+    <div class="container">
+        <div class="card">
+            <div class="card-header text-center bg-info text-white">Ucreate Game Slot Booking</div>
+            <div style="padding: 12%;padding-left: 44%;">
+                <div class="card-body">
+                    <div style="margin-right:104px">
+                        <a href="/auth/github" style="margin-bottom: 20px;" class="btn btn-info "><i class="fa fa-github"></i> Login with Github </a>
+                        <a href="/auth/google" class="btn btn-danger"><i class="fa fa-google"></i> Login with Google </a>
+                    </div>
+                </div> 
+            </div>
         </div>
-    </div>
+   </div> 
 </template>
 
 <script>

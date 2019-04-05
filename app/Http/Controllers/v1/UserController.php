@@ -64,27 +64,21 @@ class UserController extends ApiController
         return $this->success($this->user->findNotBookedUser($user_id),'Friends');
     }
 
-    public function gitHub(){
-        return  Socialite::driver('github')->redirect();
+    public function gitHub($provider){
+        return  Socialite::driver($provider)->redirect();
     }
 
-    public function gitHubUser(){
-        $requestdata = Socialite::driver('github')->stateless()->user();
-        $toekn=$requestdata->token;
+    public function gitHubUser($provider){
+        $requestdata = Socialite::driver($provider)->stateless()->user();
+        $token = $requestdata->token;
         $requestdata =  $requestdata->user;
-        if(!IsUcreateEmail($requestdata['email'])){
+        if (!IsUcreateEmail($requestdata['email'])) {
             flash_message("Only Ucreate Email Accepted",'d');
             return redirect('/login');
         }
-        $getUser=$this->user->findUserBySocialIdAndEmail($requestdata['id'],$requestdata['email']);
-        $data=[
-            'name' => $requestdata['login'],
-            'email' => $requestdata['email'],
-            'social_id' => $requestdata['id'],
-            'social_token' => $toekn,
-            'social_image' => $requestdata['avatar_url'],
-            'user_type' => 0
-        ];
+        $getUser=$this->user->findUserBySocialIdAndEmail($requestdata['id'], $requestdata['email']);
+        $data = self::SocailFeilds($provider,$requestdata);
+        $data['social_token'] = $token;
         $success=($getUser)?$this->update($getUser,$data):$this->store($data);
         if($success){
             Auth::loginUsingId($success->id, true);
@@ -97,5 +91,24 @@ class UserController extends ApiController
     public function logout(){
         Auth::logout();
         return redirect('/login');
+    }
+
+    private static function SocailFeilds(string $provider, array $requestdata){
+        if($provider=='github'){
+            return [
+                'name' => $requestdata['login'],
+                'email' => $requestdata['email'],
+                'social_id' => $requestdata['id'],
+                'social_image' => $requestdata['avatar_url'],
+                'user_type' => 0
+                ];
+        }
+        return [
+            'name' => $requestdata['name'],
+            'email' => $requestdata['email'],
+            'social_id' => $requestdata['id'],
+            'social_image' => $requestdata['picture'],
+            'user_type' => 0
+        ];
     }
 }
