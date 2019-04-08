@@ -28,6 +28,10 @@ class SlotTableSeeder extends Seeder
                 'from' => '12:45'
             ],
             [
+                'to' => '12:45',
+                'from' => '13:00'
+            ],
+            [
                 'to' => '13:00',
                 'from' => '13:15'
             ],
