@@ -84,7 +84,7 @@ export default {
             last : this.first+6,
             state: {
                 disabledDates: {
-                    to: new Date(), // Disable all dates up to specific date
+                    to: new Date((new Date().getTime()-3600000)), // Disable all dates up to specific date
                     from: new Date(new Date().setDate( new Date().getDate() - new Date().getDay()+5)),
                 }
             } ,
