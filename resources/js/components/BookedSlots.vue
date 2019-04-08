@@ -63,12 +63,13 @@ export default {
     },
     methods:{
         timeToDate:function(timestamp){
-            console.log(timestamp);
-            let date = new Date(timestamp*1000);
-            let month = date.getMonth(); 
-            let day = date.getDay(); 
-            let year = date.getFullYear(); 
-            return day+"-"+month+"-"+year;
+            let a = new Date(UNIX_timestamp * 1000);
+            let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            let year = a.getFullYear();
+            let month = months[a.getMonth()];
+            let date = a.getDate();
+            var time = date + ' - ' + month + ' - ' + year;
+            return time;
         },
     }
 }
