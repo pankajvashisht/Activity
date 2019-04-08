@@ -63,6 +63,7 @@ export default {
     },
     methods:{
         timeToDate:function(timestamp){
+            console.log(timestamp);
             let date = new Date(timestamp*1000);
             let month = date.getMonth(); 
             let day = date.getDay(); 

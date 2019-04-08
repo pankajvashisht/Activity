@@ -18,6 +18,11 @@
                  
               </div>
           </div>
+          <div class="card-footer">
+              <div class="float-right">
+                  <button v-show="booking.booking.booking_date<current_date" @click="delete_booking(booking.booking_id)" class="btn btn-danger"> Delete </button>
+              </div>
+          </div>
       </div>
      </div> 
 </template>
@@ -27,7 +32,8 @@
         name:"mybooking",
         data:function() {
             return {
-                mybooking:[]
+                mybooking:[],
+                current_date:parseInt(new Date().getTime()/1000),
             }
             
         },
@@ -47,7 +53,21 @@
          },methods:{
              timeToDate:function(date){
                  return new Date(date*1000)
-             },
+             }, delete_booking : function(id){
+                 swal({
+                    title: "Are you sure want delete ?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("We working on it");
+                    } else {
+                        swal("We working on it");
+                    }
+                });
+             }
          }
     }
 </script>
