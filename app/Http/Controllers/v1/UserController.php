@@ -29,7 +29,7 @@ class UserController extends ApiController
         }
         $requestdata=$request->all();
         if(!IsUcreateEmail($requestdata['email'])){
-            return $this->error(406,"Email not accepted"); 
+            return $this->error(406,"ucreate employees are authorized to access!!"); 
         }
         $getUser=$this->user->findUserBySocialIdAndEmail($requestdata['social_id'],$requestdata['email']);
         $success=($getUser)?$this->update($getUser):$this->store($requestdata);
@@ -73,7 +73,7 @@ class UserController extends ApiController
         $token = $requestdata->token;
         $requestdata =  $requestdata->user;
         if (!IsUcreateEmail($requestdata['email'])) {
-            flash_message("Only Ucreate Email Accepted",'d');
+            flash_message("ucreate employees are authorized to access!!",'d');
             return redirect('/login');
         }
         $getUser=$this->user->findUserBySocialIdAndEmail($requestdata['id'], $requestdata['email']);

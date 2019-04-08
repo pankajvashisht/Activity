@@ -39,6 +39,7 @@ class BookingsController extends ApiController
             return $this->error(403,self::names($user)."These user already booked all slot");
         }
         $users[]=$requestdata['user_id'];
+        $requestdata['players']=json_encode($users);
         if($booking=$this->booking->create($requestdata)){
             $this->addMember($users,$booking->id,$requestdata['booking_date']);
             return $this->success([],'Your Booking create Successfully');

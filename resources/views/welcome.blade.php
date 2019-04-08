@@ -41,7 +41,7 @@
                     @include('Flash.flash')
                 </div>
                 <div class="container-fluid" style="margin-top:80px">
-                     <router-view class="animated slideInUp"></router-view>
+                     <router-view class="animated fadeIn"></router-view>
                 </div>
                </template>
     
