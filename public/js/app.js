@@ -1929,10 +1929,11 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     removeplayer: function removeplayer() {
-      this.player = [{
-        id: 0,
-        name: 'Please Select'
-      }];
+      if (this.selected_game.total_player_play == 4) {
+        if (this.player.length > 1) {
+          this.player.splice(1, 2);
+        }
+      }
     },
     remove: function remove(index) {
       this.player.splice(index, 1);
