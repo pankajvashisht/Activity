@@ -77,4 +77,17 @@ class BookingsController extends ApiController
         return $this->success($bookings,'Users Bookings');
     }
 
+    public function deleteBooking($booking_id,$user_id=0){
+        if($user_id!=0) {
+        }
+        $booking = $this->booking->bookingIdWithSlot($booking_id);
+        if(time() > $booking['booking_date']) {
+            return $this->error(408,'Booking Time passed a way');
+        }
+        if($this->booking->deleteBooking($booking_id)) {
+            return $this->success([],'Booking delete successfully');
+        }
+        return $this->error(403,'oops!! Something want wrong');
+    }
+
 }

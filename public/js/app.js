@@ -2073,7 +2073,7 @@ __webpack_require__.r(__webpack_exports__);
       var year = a.getFullYear();
       var month = months[a.getMonth()];
       var date = a.getDate();
-      var time = date + ' - ' + month + ' - ' + year;
+      var time = date + '-' + month + '-' + year;
       return time;
     }
   }
@@ -2244,6 +2244,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "mybooking",
   data: function data() {
@@ -2270,7 +2271,9 @@ __webpack_require__.r(__webpack_exports__);
     timeToDate: function timeToDate(date) {
       return new Date(date * 1000);
     },
-    delete_booking: function delete_booking(id) {
+    delete_booking: function delete_booking(id, index) {
+      var _this2 = this;
+
       swal({
         title: "Are you sure want delete ?",
         icon: "warning",
@@ -2278,9 +2281,19 @@ __webpack_require__.r(__webpack_exports__);
         dangerMode: true
       }).then(function (willDelete) {
         if (willDelete) {
-          swal("We working on it");
-        } else {
-          swal("We working on it");
+          _this2.axios.delete('api/v1/delete_booking/' + id, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization-key': _this2.$auth_key
+            }
+          }).then(function (response) {
+            _this2.mybooking.splice(index, 1);
+
+            swal("Information", response.data.message, "success");
+            return false;
+          }).catch(function (error) {
+            swal("Error", error.response.data.error_message, "error");
+          });
         }
       });
     }
@@ -7958,7 +7971,7 @@ var render = function() {
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),
-      _vm._l(_vm.mybooking, function(booking) {
+      _vm._l(_vm.mybooking, function(booking, new_index) {
         return _c("div", { key: booking.id, staticClass: "card mb-4" }, [
           _c("div", { staticClass: "card-header text-white bg-info" }, [
             _vm._v(
@@ -8028,6 +8041,8 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "card-footer" }, [
             _c("div", { staticClass: "float-right" }, [
+              _vm._m(0, true),
+              _vm._v(" "),
               _c(
                 "button",
                 {
@@ -8035,14 +8050,14 @@ var render = function() {
                     {
                       name: "show",
                       rawName: "v-show",
-                      value: booking.booking.booking_date < _vm.current_date,
-                      expression: "booking.booking.booking_date<current_date"
+                      value: booking.booking.booking_date > _vm.current_date,
+                      expression: "booking.booking.booking_date>current_date"
                     }
                   ],
                   staticClass: "btn btn-danger",
                   on: {
                     click: function($event) {
-                      return _vm.delete_booking(booking.booking_id)
+                      return _vm.delete_booking(booking.booking_id, new_index)
                     }
                   }
                 },
@@ -8056,7 +8071,17 @@ var render = function() {
     2
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [
+      _c("b", [_vm._v("Note:")]),
+      _vm._v(" (Delete functionality On Testing Phase) ")
+    ])
+  }
+]
 render._withStripped = true
 
 

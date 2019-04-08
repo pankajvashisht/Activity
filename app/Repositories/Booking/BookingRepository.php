@@ -133,8 +133,26 @@ class BookingRepository implements BookingInterface
         if($data){
             $data =  array_column($data,'user');
         }        
-        return $data;    
-        
+        return $data;
+    }
+
+
+    public function deleteBooking($booking_id){
+        DB::beginTransaction();
+        if($this->model->where('id', '=', $booking_id)->delete()){
+            $this->user_booking->where('booking_id','=',$booking_id)
+            ->delete();
+        }
+        DB::commit();
+        return true;
+    }
+
+
+    public function bookingIdWithSlot($booking_id){
+        return $this->model->with('slot:id,to,from')
+            ->where('id','=',$booking_id)
+            ->first()
+            ->toArray();
     }
 
 }

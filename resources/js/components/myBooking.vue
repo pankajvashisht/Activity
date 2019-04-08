@@ -2,7 +2,7 @@
     <div class="container">
         <h5 class="text-center">My Bookings</h5>
         <hr>
-      <div class="card mb-4" v-for="booking in mybooking" v-bind:key="booking.id">
+      <div class="card mb-4" v-for="(booking,new_index) in mybooking" v-bind:key="booking.id">
           <div class="card-header text-white bg-info">
               {{booking.booking.game.name}}
               <span class="float-right"><b>Playing Date </b> {{timeToDate(booking.booking.booking_date)}}</span>
@@ -20,7 +20,8 @@
           </div>
           <div class="card-footer">
               <div class="float-right">
-                  <button v-show="booking.booking.booking_date<current_date" @click="delete_booking(booking.booking_id)" class="btn btn-danger"> Delete </button>
+                  <span><b>Note:</b> (Delete functionality On Testing Phase) </span>
+                  <button v-show="booking.booking.booking_date>current_date" @click="delete_booking(booking.booking_id,new_index)" class="btn btn-danger"> Delete </button>
               </div>
           </div>
       </div>
@@ -53,7 +54,7 @@
          },methods:{
              timeToDate:function(date){
                  return new Date(date*1000)
-             }, delete_booking : function(id){
+             }, delete_booking : function(id,index){
                  swal({
                     title: "Are you sure want delete ?",
                     icon: "warning",
@@ -62,10 +63,21 @@
                 })
                 .then((willDelete) => {
                     if (willDelete) {
-                        swal("We working on it");
-                    } else {
-                        swal("We working on it");
-                    }
+                        this.axios.delete('api/v1/delete_booking/'+id, {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization-key': this.$auth_key
+                            },
+                        })
+                        .then((response) => {
+                            this.mybooking.splice(index,1);
+                             swal("Information", response.data.message, "success");
+                             return false;
+                        })
+                        .catch((error) => {
+                            swal("Error", error.response.data.error_message, "error");
+                        })
+                    } 
                 });
              }
          }

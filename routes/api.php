@@ -49,6 +49,10 @@ $router->group(['prefix' => 'v1', 'namespace' => 'v1','middleware'=>'cors'], fun
             'as' => 'users',
             'uses' => 'UserController@getUsers'
         ]);
+        $router->delete('/delete_booking/{booking_id}/{user_id?}', [
+            'as' => 'DeleteBooking',
+            'uses' => 'BookingsController@deleteBooking'
+        ]);
     });
     $router->post('/slot','SlotsController@fakeAddData');
     $router->post('/games','GamesController@addFakeData');

@@ -68,7 +68,7 @@ export default {
             let year = a.getFullYear();
             let month = months[a.getMonth()];
             let date = a.getDate();
-            var time = date + ' - ' + month + ' - ' + year;
+            var time = date + '-' + month + '-' + year;
             return time;
         },
     }
