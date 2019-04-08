@@ -1882,6 +1882,7 @@ __webpack_require__.r(__webpack_exports__);
     getSlot: function getSlot() {
       var _this2 = this;
 
+      this.removeplayer();
       var timestamp = parseInt(new Date(this.booking_date).getTime() / 1000);
       this.minMember();
       this.axios.get('api/v1/slot/' + this.game_id + '/' + timestamp, {
@@ -1926,6 +1927,12 @@ __webpack_require__.r(__webpack_exports__);
         id: 0,
         name: 'Please Select'
       });
+    },
+    removeplayer: function removeplayer() {
+      this.player = [{
+        id: 0,
+        name: 'Please Select'
+      }];
     },
     remove: function remove(index) {
       this.player.splice(index, 1);
@@ -7724,8 +7731,6 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("p", [
-        _vm._v("- Slot Booking needs to be done 3 days in advance."),
-        _c("br"),
         _vm._v(
           "- In case, there is the availability of slot, only then you can avail it."
         ),

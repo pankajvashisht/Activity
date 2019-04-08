@@ -115,6 +115,7 @@ export default {
          })
   }, methods:{
       getSlot:function()  {
+          this.removeplayer();
           let timestamp = parseInt(new Date(this.booking_date).getTime()/1000);
           this.minMember()
           this.axios.get('api/v1/slot/'+this.game_id+'/'+timestamp, {
@@ -152,9 +153,7 @@ export default {
             .catch((error) => {
                 console.error(error);
          })
-      },
-
-      addMore:function() {
+      }, addMore:function() {
          if(this.selected_game.total_player_play==this.player.length){
              return false;
           }
@@ -162,11 +161,16 @@ export default {
                    id:0,
                    name:'Please Select' 
         });
-      },
-      remove:function(index){
+      }, removeplayer:function(){
+               this. player=[
+                    {
+                    id:0,
+                    name:'Please Select' 
+                    }
+                ];
+      }, remove:function(index){
           this.player.splice(index,1);
-      },
-      createBooking:function(){
+      }, createBooking:function(){
          var bodyFormData = new FormData();
          if(this.game_id==0){
              swal("Error", "Please Select Game", "error");
