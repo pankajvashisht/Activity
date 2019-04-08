@@ -8125,18 +8125,11 @@ var render = function() {
         }),
         _vm._v(" "),
         _c("div", { staticClass: "card bg-info" }, [
-          _c(
-            "li",
-            { staticClass: "nav-item" },
-            [
-              _c(
-                "router-link",
-                { staticClass: "nav-link", attrs: { to: "profile" } },
-                [_c("b", [_vm._v(_vm._s(_vm.userInfo.name))])]
-              )
-            ],
-            1
-          )
+          _c("li", { staticClass: "nav-item" }, [
+            _c("a", { staticClass: "nav-link" }, [
+              _c("b", [_vm._v(_vm._s(_vm.userInfo.name))])
+            ])
+          ])
         ]),
         _vm._v(" "),
         _vm._m(0)

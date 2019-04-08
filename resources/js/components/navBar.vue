@@ -24,7 +24,7 @@
                 <img v-bind:src="userInfo.social_image" height="30px" width="30px" class="rounded img" :alt="userInfo.name">
                 <div class="card bg-info">
             <li class="nav-item">
-                    <router-link class="nav-link"  to="profile"><b>{{userInfo.name}}</b></router-link>  
+                    <a class="nav-link" ><b>{{userInfo.name}}</b></a>  
              </li>
              </div>
              <li class="nav-item">
