@@ -63,7 +63,7 @@ export default {
     },
     methods:{
         timeToDate:function(timestamp){
-            let a = new Date(UNIX_timestamp * 1000);
+            let a = new Date(timestamp * 1000);
             let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
             let year = a.getFullYear();
             let month = months[a.getMonth()];
