@@ -1849,7 +1849,7 @@ __webpack_require__.r(__webpack_exports__);
       last: this.first + 6,
       state: {
         disabledDates: {
-          to: new Date(),
+          to: new Date(new Date().getTime() - 3600000),
           // Disable all dates up to specific date
           from: new Date(new Date().setDate(new Date().getDate() - new Date().getDay() + 5))
         }
@@ -2068,11 +2068,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     timeToDate: function timeToDate(timestamp) {
-      var date = new Date(timestamp * 1000);
-      var month = date.getMonth();
-      var day = date.getDay();
-      var year = date.getFullYear();
-      return day + "-" + month + "-" + year;
+      var a = new Date(timestamp * 1000);
+      var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      var year = a.getFullYear();
+      var month = months[a.getMonth()];
+      var date = a.getDate();
+      var time = date + ' - ' + month + ' - ' + year;
+      return time;
     }
   }
 });
@@ -2237,11 +2239,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "mybooking",
   data: function data() {
     return {
-      mybooking: []
+      mybooking: [],
+      current_date: parseInt(new Date().getTime() / 1000)
     };
   },
   mounted: function mounted() {
@@ -2261,6 +2269,20 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     timeToDate: function timeToDate(date) {
       return new Date(date * 1000);
+    },
+    delete_booking: function delete_booking(id) {
+      swal({
+        title: "Are you sure want delete ?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(function (willDelete) {
+        if (willDelete) {
+          swal("We working on it");
+        } else {
+          swal("We working on it");
+        }
+      });
     }
   }
 });
@@ -8002,7 +8024,32 @@ var render = function() {
               })
             ],
             2
-          )
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-footer" }, [
+            _c("div", { staticClass: "float-right" }, [
+              _c(
+                "button",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: booking.booking.booking_date < _vm.current_date,
+                      expression: "booking.booking.booking_date<current_date"
+                    }
+                  ],
+                  staticClass: "btn btn-danger",
+                  on: {
+                    click: function($event) {
+                      return _vm.delete_booking(booking.booking_id)
+                    }
+                  }
+                },
+                [_vm._v(" Delete ")]
+              )
+            ])
+          ])
         ])
       })
     ],
