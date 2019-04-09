@@ -20,7 +20,7 @@
           </div>
           <div class="card-footer">
               <div class="float-right">
-                  <span><b>Note:</b> (Delete functionality On Testing Phase) </span>
+                  <span  v-show="booking.booking.booking_date>current_date"><b>Note:</b> (Delete functionality On Testing Phase) </span>
                   <button v-show="booking.booking.booking_date>current_date" @click="delete_booking(booking.booking_id,new_index)" class="btn btn-danger"> Delete </button>
               </div>
           </div>
@@ -56,7 +56,7 @@
                  return new Date(date*1000)
              }, delete_booking : function(id,index){
                  swal({
-                    title: "Are you sure want delete ?",
+                    title: "Are you sure want to delete ?",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,

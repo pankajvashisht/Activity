@@ -2275,7 +2275,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       swal({
-        title: "Are you sure want delete ?",
+        title: "Are you sure want to delete ?",
         icon: "warning",
         buttons: true,
         dangerMode: true
@@ -8041,7 +8041,23 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "card-footer" }, [
             _c("div", { staticClass: "float-right" }, [
-              _vm._m(0, true),
+              _c(
+                "span",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: booking.booking.booking_date > _vm.current_date,
+                      expression: "booking.booking.booking_date>current_date"
+                    }
+                  ]
+                },
+                [
+                  _c("b", [_vm._v("Note:")]),
+                  _vm._v(" (Delete functionality On Testing Phase) ")
+                ]
+              ),
               _vm._v(" "),
               _c(
                 "button",
@@ -8071,17 +8087,7 @@ var render = function() {
     2
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", [
-      _c("b", [_vm._v("Note:")]),
-      _vm._v(" (Delete functionality On Testing Phase) ")
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

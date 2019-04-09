@@ -16,7 +16,7 @@
                     </div>
                 </div>
             </div>
-             <div class="col-3 mb-5" v-for="booking in  allBooking" v-bind:key="booking.id">
+             <div class="col-3 mb-5" v-for="booking in  allBooking " v-bind:key="booking.id">
                 <div class="card">
                     <div class="card-header  text-white bg-info">
                         {{(booking.booking.game!=null)?booking.booking.game.name:'Game Name'}}

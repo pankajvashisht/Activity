@@ -72,7 +72,7 @@ class BookingRepository implements BookingInterface
 
     public function AllBookings(){
         $current_week= currentWeek();
-        $time = strtotime('-1 day',time());
+        $time = strtotime('-6 hour',time());
         $booking = $this->user_booking
                ->select('booking_id')
                ->with(['booking' => function ($query) {
