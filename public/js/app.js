@@ -2096,6 +2096,9 @@ __webpack_require__.r(__webpack_exports__);
         'Authorization-key': this.$auth_key
       }
     }).then(function (response) {
+      response.data.body = response.data.body.sort(function (a, b) {
+        return a.booking.booking_date - b.booking.booking_date;
+      });
       _this.allBooking = response.data.body;
       _this.temp_array = response.data.body;
     }).catch(function (error) {

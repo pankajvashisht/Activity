@@ -90,6 +90,7 @@ export default {
                 'Authorization-key': this.$auth_key
             },
         }).then((response) => {
+                response.data.body = response.data.body.sort((a,b) => a.booking.booking_date-b.booking.booking_date);    
                 this.allBooking= response.data.body;
                 this.temp_array = response.data.body;
         }).catch((error) => {
