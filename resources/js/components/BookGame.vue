@@ -10,7 +10,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="sel1">Select Game:</label>
-                    <select class="form-control" required="true" v-on:change="getSlot()" v-model="game_id">
+                    <select class="form-control" required="true" v-on:change="getSlot(0)" v-model="game_id">
                             <option value="0">--Please select Game--</option>
                             <option v-for="game in games" v-bind:key="game.id" v-bind:value="game.id">{{game.name}}</option>
                     </select>
@@ -19,7 +19,7 @@
             <div class="col-6">
                  <div class="form-group">
                     <label for="sel1">Select Date:</label> 
-                    <datepicker @closed="getSlot" v-model="booking_date" class="form-control" :disabledDates="state.disabledDates" ></datepicker>
+                    <datepicker @closed="getSlot(1)" v-model="booking_date" class="form-control" :disabledDates="state.disabledDates" ></datepicker>
                  </div>  
                 
             </div>
@@ -99,7 +99,6 @@ export default {
   },components: {
              Datepicker
   },mounted() {
-      console.log(this.$auth_key);
       this.axios.get('api/v1/games', {
                 headers: {
                     'Content-Type': 'application/json',
@@ -114,8 +113,10 @@ export default {
                 console.error(error);
          })
   }, methods:{
-      getSlot:function()  {
-          this.removeplayer();
+      getSlot:function(type)  {
+          if(!type){
+              this.removeplayer();
+          }
           let timestamp = parseInt(new Date(this.booking_date).getTime()/1000);
           this.minMember()
           this.axios.get('api/v1/slot/'+this.game_id+'/'+timestamp, {

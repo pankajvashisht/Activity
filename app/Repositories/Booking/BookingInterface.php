@@ -12,4 +12,5 @@ interface BookingInterface
     public function checkSlot(int $slot_id,int $game_id,int $date);
     public function findMemberStatus(array $users);
     public function userBookings(int $user_id);
+    public function AllBookings();
 }

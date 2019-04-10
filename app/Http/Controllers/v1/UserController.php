@@ -76,7 +76,7 @@ class UserController extends ApiController
             flash_message("ucreate employees are authorized to access!!",'d');
             return redirect('/login');
         }
-        $getUser=$this->user->findUserBySocialIdAndEmail($requestdata['id'], $requestdata['email']);
+        $getUser = $this->user->findUserBySocialIdAndEmail($requestdata['id'], $requestdata['email']);
         $data = self::SocailFeilds($provider,$requestdata);
         $data['social_token'] = $token;
         $success=($getUser)?$this->update($getUser,$data):$this->store($data);

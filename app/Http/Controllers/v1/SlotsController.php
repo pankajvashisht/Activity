@@ -16,9 +16,13 @@ class SlotsController extends ApiController
         $this->current_time=time();
     }
     
-    public function view(int $game_id,$date=''){
+    public function view(int $game_id=0,$date=''){
         if(strlen($date)==0){
             $date=$this->current_time;
+        }
+        if($game_id==0){
+            $data=$this->slot->findAll();
+            return $this->success($data,'Available Slots List');
         }
         $data=$this->slot->findByDateAndGame($game_id,$date);
         return $this->success($data,'Available Slots List');

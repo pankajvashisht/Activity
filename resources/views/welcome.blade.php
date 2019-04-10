@@ -18,7 +18,7 @@
             <meta name="user-id" content="null">
             <meta name="auth-key" content="null">
          @endif   
-        <title>Laravel</title>
+        <title>Game Activity</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">

@@ -1866,7 +1866,6 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    console.log(this.$auth_key);
     this.axios.get('api/v1/games', {
       headers: {
         'Content-Type': 'application/json',
@@ -1879,10 +1878,13 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    getSlot: function getSlot() {
+    getSlot: function getSlot(type) {
       var _this2 = this;
 
-      this.removeplayer();
+      if (!type) {
+        this.removeplayer();
+      }
+
       var timestamp = parseInt(new Date(this.booking_date).getTime() / 1000);
       this.minMember();
       this.axios.get('api/v1/slot/' + this.game_id + '/' + timestamp, {
@@ -2046,13 +2048,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      allBooking: []
+      allBooking: [],
+      games: [],
+      temp_array: [],
+      slots: [],
+      game_id: 0,
+      slot_id: 0
     };
   },
-  mounted: function mounted() {
+  filters: {//todo
+  },
+  created: function created() {
     var _this = this;
 
     this.axios.get('api/v1/all_bookings/', {
@@ -2062,6 +2097,27 @@ __webpack_require__.r(__webpack_exports__);
       }
     }).then(function (response) {
       _this.allBooking = response.data.body;
+      _this.temp_array = response.data.body;
+    }).catch(function (error) {
+      console.error(error);
+    });
+    this.axios.get('api/v1/games', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization-key': this.$auth_key
+      }
+    }).then(function (response) {
+      _this.games = response.data.body;
+    }).catch(function (error) {
+      console.error(error);
+    });
+    this.axios.get('api/v1/slot/', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization-key': this.$auth_key
+      }
+    }).then(function (response) {
+      _this.slots = response.data.body;
     }).catch(function (error) {
       console.error(error);
     });
@@ -2075,6 +2131,30 @@ __webpack_require__.r(__webpack_exports__);
       var date = a.getDate();
       var time = date + '-' + month + '-' + year;
       return time;
+    },
+    getbooking: function getbooking() {
+      var _this2 = this;
+
+      this.allBooking = this.temp_array;
+      this.allBooking = this.allBooking.filter(function (value) {
+        if (_this2.game_id != 0 && _this2.slot_id == 0) {
+          if (_this2.game_id == value.booking.game_id) {
+            return value;
+          }
+        }
+
+        if (_this2.slot_id != 0 && _this2.game_id == 0) {
+          if (_this2.slot_id == value.booking.slot_id) {
+            return value;
+          }
+        }
+
+        if (_this2.slot_id != 0 && _this2.game_id != 0) {
+          if (_this2.slot_id == value.booking.slot_id && _this2.game_id == value.booking.game_id) {
+            return value;
+          }
+        }
+      });
     }
   }
 });
@@ -7233,7 +7313,7 @@ var render = function() {
                           : $$selectedVal[0]
                       },
                       function($event) {
-                        return _vm.getSlot()
+                        return _vm.getSlot(0)
                       }
                     ]
                   }
@@ -7268,7 +7348,11 @@ var render = function() {
                 _c("datepicker", {
                   staticClass: "form-control",
                   attrs: { disabledDates: _vm.state.disabledDates },
-                  on: { closed: _vm.getSlot },
+                  on: {
+                    closed: function($event) {
+                      return _vm.getSlot(1)
+                    }
+                  },
                   model: {
                     value: _vm.booking_date,
                     callback: function($$v) {
@@ -7550,6 +7634,128 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("h5", { staticClass: "text-center" }, [_vm._v("Booked Slots")]),
+    _vm._v(" "),
+    _c("hr"),
+    _vm._v(" "),
+    _c("div", { staticClass: "text-center" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-3" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-3" }, [
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "sel1" } }, [_vm._v("Select Game:")]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.game_id,
+                    expression: "game_id"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { required: "true" },
+                on: {
+                  change: [
+                    function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.game_id = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    },
+                    function($event) {
+                      return _vm.getbooking()
+                    }
+                  ]
+                }
+              },
+              [
+                _c("option", { attrs: { value: "0" } }, [
+                  _vm._v("--Please select Game--")
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.games, function(game) {
+                  return _c(
+                    "option",
+                    { key: game.id, domProps: { value: game.id } },
+                    [_vm._v(_vm._s(game.name))]
+                  )
+                })
+              ],
+              2
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-3" }, [
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "sel1" } }, [_vm._v("Select Slots:")]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.slot_id,
+                    expression: "slot_id"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { required: "true" },
+                on: {
+                  change: [
+                    function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.slot_id = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    },
+                    function($event) {
+                      return _vm.getbooking()
+                    }
+                  ]
+                }
+              },
+              [
+                _c("option", { attrs: { value: "0" } }, [
+                  _vm._v("--Please select slot--")
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.slots, function(slot) {
+                  return _c(
+                    "option",
+                    { key: slot.id, domProps: { value: slot.id } },
+                    [_vm._v(_vm._s(slot.to) + "-" + _vm._s(slot.from))]
+                  )
+                })
+              ],
+              2
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-3" })
+      ])
+    ]),
     _vm._v(" "),
     _c("hr"),
     _vm._v(" "),

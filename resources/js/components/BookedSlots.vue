@@ -3,6 +3,32 @@
     <div>
        <h5 class="text-center">Booked Slots</h5>
         <hr>
+        <div class="text-center">
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="sel1">Select Game:</label>
+                        <select class="form-control" required="true" v-on:change="getbooking()" v-model="game_id">
+                                <option value="0">--Please select Game--</option>
+                                <option v-for="game in games" v-bind:key="game.id" v-bind:value="game.id">{{game.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="sel1">Select Slots:</label>
+                        <select class="form-control" required="true"  v-on:change="getbooking()" v-model="slot_id">
+                                <option value="0">--Please select slot--</option>
+                                <option v-for="slot in slots" v-bind:key="slot.id" v-bind:value="slot.id">{{slot.to}}-{{slot.from}}</option>
+                        </select> 
+                    </div>  
+                    
+                </div>
+                <div class="col-3"></div>
+            </div>
+        </div>
+        <hr>
         <div class="row">
             <div class="col-3 mb-5">
                 <div class="card">
@@ -16,7 +42,7 @@
                     </div>
                 </div>
             </div>
-             <div class="col-3 mb-5" v-for="booking in  allBooking " v-bind:key="booking.id">
+             <div class="col-3 mb-5" v-for="booking in  allBooking" v-bind:key="booking.id">
                 <div class="card">
                     <div class="card-header  text-white bg-info">
                         {{(booking.booking.game!=null)?booking.booking.game.name:'Game Name'}}
@@ -46,10 +72,18 @@
 export default {
     data:function() {
         return {
-            allBooking:[]
+            allBooking:[],
+            games:[],
+            temp_array:[],
+            slots:[],
+            game_id:0,
+            slot_id:0
         }    
     },
-    mounted: function(){ 
+    filters: {
+        //todo
+    },
+    created: function(){ 
         this.axios.get('api/v1/all_bookings/', {
             headers: {
                 'Content-Type': 'application/json',
@@ -57,9 +91,37 @@ export default {
             },
         }).then((response) => {
                 this.allBooking= response.data.body;
+                this.temp_array = response.data.body;
         }).catch((error) => {
                 console.error(error);
         })
+
+        this.axios.get('api/v1/games', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization-key': this.$auth_key
+                },
+            })
+            .then((response) => {
+               this.games= response.data.body;
+               
+            })
+            .catch((error) => {
+                console.error(error);
+         })
+
+         this.axios.get('api/v1/slot/', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization-key': this.$auth_key
+                },
+            })
+            .then((response) => {
+               this.slots= response.data.body;
+            })
+            .catch((error) => {
+                console.error(error);
+         })
     },
     methods:{
         timeToDate:function(timestamp){
@@ -71,6 +133,28 @@ export default {
             var time = date + '-' + month + '-' + year;
             return time;
         },
+
+        getbooking:function(){
+            this.allBooking = this.temp_array;
+            this.allBooking = this.allBooking.filter((value) => {
+                if(this.game_id != 0 && this.slot_id == 0 ){
+                    if(this.game_id==value.booking.game_id){
+                        return value;
+                    }
+                }
+                if(this.slot_id != 0 && this.game_id == 0){
+                    if(this.slot_id==value.booking.slot_id){
+                        return value;
+                    }
+                }
+                if(this.slot_id != 0 && this.game_id != 0){
+                    if(this.slot_id==value.booking.slot_id && this.game_id==value.booking.game_id ){
+                        return value;
+                    }
+                }   
+               
+            });
+        }
     }
 }
 </script>
