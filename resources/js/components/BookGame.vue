@@ -26,7 +26,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="sel1">Select Slot:</label>
-                    <select class="form-control" required="true"  v-on:change="getFriend()" v-model="slot_id">
+                    <select class="form-control" required="true"  v-on:change="filterFriend()" v-model="slot_id">
                              <option value="0">--Please select slot--</option>
                             <option v-for="slot in slots" v-bind:key="slot.id" v-bind:value="slot.id">{{slot.to}}-{{slot.from}}</option>
                     </select>
@@ -74,6 +74,7 @@ export default {
             games:[],
             users:[],
             slots:[],
+            allFriend:[],
             game_id:0,
             slot_id:0,
             disabled:false,
@@ -99,19 +100,20 @@ export default {
   },components: {
              Datepicker
   },mounted() {
-      this.axios.get('api/v1/games', {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization-key': this.$auth_key
-                },
-            })
-            .then((response) => {
-               this.games= response.data.body;
-               
-            })
-            .catch((error) => {
-                console.error(error);
-         })
+        this.axios.get('api/v1/games', {
+            headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization-key': this.$auth_key
+                    },
+                })
+                .then((response) => {
+                this.games= response.data.body;
+                
+                })
+                .catch((error) => {
+                    console.error(error);
+        })
+        this.getFriend();
   }, methods:{
       getSlot:function(type)  {
           if(!type){
@@ -149,7 +151,8 @@ export default {
                 },
             })
             .then((response) => {
-               this.users= response.data.body;
+                this.allFriend = response.data.body;
+                this.users = this.allFriend.filter(data => data.total_booked_slots<2);
             })
             .catch((error) => {
                 console.error(error);
@@ -184,7 +187,7 @@ export default {
          bodyFormData.append('slot_id',this.slot_id);
          bodyFormData.append('game_id',this.game_id);
          bodyFormData.append('user_id',this.$userId);
-         bodyFormData.append('booking_date',parseInt(new Date(this.booking_date).getTime()/1000));
+         bodyFormData.append('booking_date',this.setHour());
          let users =[];
          for(let i=0; i<this.player.length; i++){
              if(this.player[i].id == 0 || users.indexOf(this.player[i].id) !='-1' ){
@@ -211,6 +214,23 @@ export default {
                 console.log(error.response);
                  swal("Error", error.response.data.error_message, "error");
          })
+      }, setHour:function(){
+            let date = new Date(this.booking_date);
+            let selected_slot = this.slots.filter(data => this.slot_id==data.id);
+            let times = selected_slot[0].to.split(':');
+            let hour = times[0];
+            let mins = times[1];
+            date.setHours(hour);
+            date.setMinutes(mins);
+            return parseInt(date.getTime()/1000);
+      }, filterFriend:function(){
+            let times = selected_slot[0].to.split(':');
+            let hour = times[0];
+            if(hour>=19){
+                this.users = this.allFriend;
+                return false;
+            }
+            this.users = this.allFriend.filter(data => data.total_booked_slots<2)  
       }
   }
 }

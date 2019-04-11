@@ -46,8 +46,8 @@
                 <div class="card">
                     <div class="card-header  text-white bg-info">
                         {{(booking.booking.game!=null)?booking.booking.game.name:'Game Name'}}
-                        <span class="float-right text-white">
-                          <b>Playing Date : </b>  {{timeToDate(booking.booking.booking_date)}}
+                        <span class="float-right text-white 1rem">
+                          {{timeToDate(booking.booking.booking_date)}}
                         </span>
                     </div>
                     <div class="card-body">  

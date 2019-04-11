@@ -1839,6 +1839,7 @@ __webpack_require__.r(__webpack_exports__);
       games: [],
       users: [],
       slots: [],
+      allFriend: [],
       game_id: 0,
       slot_id: 0,
       disabled: false,
@@ -1876,6 +1877,7 @@ __webpack_require__.r(__webpack_exports__);
     }).catch(function (error) {
       console.error(error);
     });
+    this.getFriend();
   },
   methods: {
     getSlot: function getSlot(type) {
@@ -1915,7 +1917,10 @@ __webpack_require__.r(__webpack_exports__);
           'Authorization-key': this.$auth_key
         }
       }).then(function (response) {
-        _this3.users = response.data.body;
+        _this3.allFriend = response.data.body;
+        _this3.users = _this3.allFriend.filter(function (data) {
+          return data.total_booked_slots < 2;
+        });
       }).catch(function (error) {
         console.error(error);
       });
@@ -1958,7 +1963,7 @@ __webpack_require__.r(__webpack_exports__);
       bodyFormData.append('slot_id', this.slot_id);
       bodyFormData.append('game_id', this.game_id);
       bodyFormData.append('user_id', this.$userId);
-      bodyFormData.append('booking_date', parseInt(new Date(this.booking_date).getTime() / 1000));
+      bodyFormData.append('booking_date', this.setHour());
       var users = [];
 
       for (var i = 0; i < this.player.length; i++) {
@@ -1988,6 +1993,33 @@ __webpack_require__.r(__webpack_exports__);
         _this4.disabled = false;
         console.log(error.response);
         swal("Error", error.response.data.error_message, "error");
+      });
+    },
+    setHour: function setHour() {
+      var _this5 = this;
+
+      var date = new Date(this.booking_date);
+      var selected_slot = this.slots.filter(function (data) {
+        return _this5.slot_id == data.id;
+      });
+      var times = selected_slot[0].to.split(':');
+      var hour = times[0];
+      var mins = times[1];
+      date.setHours(hour);
+      date.setMinutes(mins);
+      return parseInt(date.getTime() / 1000);
+    },
+    filterFriend: function filterFriend() {
+      var times = selected_slot[0].to.split(':');
+      var hour = times[0];
+
+      if (hour >= 19) {
+        this.users = this.allFriend;
+        return false;
+      }
+
+      this.users = this.allFriend.filter(function (data) {
+        return data.total_booked_slots < 2;
       });
     }
   }
@@ -7402,7 +7434,7 @@ var render = function() {
                           : $$selectedVal[0]
                       },
                       function($event) {
-                        return _vm.getFriend()
+                        return _vm.filterFriend()
                       }
                     ]
                   }
@@ -7814,10 +7846,9 @@ var render = function() {
                     ) +
                     "\n                    "
                 ),
-                _c("span", { staticClass: "float-right text-white" }, [
-                  _c("b", [_vm._v("Playing Date : ")]),
+                _c("span", { staticClass: "float-right text-white 1rem" }, [
                   _vm._v(
-                    "  " +
+                    "\n                      " +
                       _vm._s(_vm.timeToDate(booking.booking.booking_date)) +
                       "\n                    "
                   )

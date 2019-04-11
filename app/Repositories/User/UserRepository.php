@@ -46,11 +46,14 @@ class UserRepository implements UserInterface
     public function findNotBookedUser($user_id){
         $current_week= currentWeek();
         return $this->model
-            ->select(DB::raw('users.name,users.id,users.email,users.social_image'))
+            ->select(DB::raw('users.name,users.id,users.email,users.social_image'),
+                DB::raw('(select count(user_id) from  user_bookings 
+                where user_id=users.id and booking_date BETWEEN '. $current_week[0].' AND '.$current_week[1].')
+                    as total_booked_slots'))
             ->where('id','!=',$user_id)
             ->groupBy(DB::raw('users.name,users.id,users.email'))
-            ->having(DB::raw('(select count(user_id) from 
-            user_bookings where user_id=users.id and booking_date BETWEEN '. $current_week[0].' AND '.$current_week[1].')'),'<',2)
+            // ->having(DB::raw('(select count(user_id) from 
+            // user_bookings where user_id=users.id and booking_date BETWEEN '. $current_week[0].' AND '.$current_week[1].')'),'<',2)
             ->get();
     }
 

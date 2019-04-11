@@ -30,13 +30,17 @@ class BookingsController extends ApiController
         if(!$this->booking->checkSlot($requestdata['slot_id'],$requestdata['game_id'],$requestdata['booking_date'])){
             return $this->error(422,'Selected Slot is not free');
         }
-        if(count($this->booking->findByUserId($requestdata['user_id']))==2){
-            return $this->error(401,'Your All slots are booked');
-        }
         $users=[];
         $users=explode(',',$requestdata['players']);
-        if($user=$this->booking->findMemberStatus($users)){
-            return $this->error(403,self::names($user)."These user already booked all slot");
+        $time = strtotime('18:59');
+        $booking_hour = strtotime(date('H:i',$requestdata['booking_date']));
+        if($time > $booking_hour){
+            if(count($this->booking->findByUserId($requestdata['user_id']))==2) {
+                return $this->error(401,'Your All slots are booked');
+            }
+            if($user=$this->booking->findMemberStatus($users)) {
+                return $this->error(403,self::names($user)."These user already booked all slot");
+            }
         }
         $users[]=$requestdata['user_id'];
         $requestdata['players']=json_encode($users);

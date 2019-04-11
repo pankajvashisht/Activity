@@ -2,14 +2,14 @@
 
 
 function currentWeek(){
-    if(date('D')!='Mon'){    
+    if(date('D')!='Mon') {    
         $start = strtotime('last Monday');    
-    }else{
+    }else {
         $start = strtotime('-1  day',time());   
     }
-    if(date('D')!='Sat'){
+    if(date('D')!='Sat') {
         $end = strtotime('next Saturday');
-    }else{
+    }else {
         $end = strtotime('-1  day',time());  
     }
     return [$start,$end];
@@ -34,9 +34,9 @@ function unique_slot($slot,$booking,$date){
 
 function check_slot($slot,$booking){
     $booked_slot= array_column($booking,'slot_id');
-    if(in_array($slot,$booked_slot)){
+    if(in_array($slot,$booked_slot)) {
         foreach($booking as $key => $value){
-            if($value['game']['total_games'] == slot($booking,$slot)){
+            if($value['game']['total_games'] == slot($booking,$slot)) {
                 return true;
             }
         }
@@ -47,7 +47,7 @@ function check_slot($slot,$booking){
 function slot($booking,$slot_id){
     $count=0;
     foreach ($booking as $key => $value) {
-        if($value['slot_id']==$slot_id){
+        if($value['slot_id']==$slot_id) {
             $count++;
         }
     }
@@ -57,7 +57,7 @@ function slot($booking,$slot_id){
 function IsUcreateEmail($email){
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return false;
     $email=explode('@',$email);
-    if($email[1]=='ucreate.co.in' || $email[1]=='ucreate.it'){
+    if($email[1] == 'ucreate.co.in' || $email[1] == 'ucreate.it'){
         return true;
     }
     return false;
