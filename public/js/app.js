@@ -2010,6 +2010,11 @@ __webpack_require__.r(__webpack_exports__);
       return parseInt(date.getTime() / 1000);
     },
     filterFriend: function filterFriend() {
+      var _this6 = this;
+
+      var selected_slot = this.slots.filter(function (data) {
+        return _this6.slot_id == data.id;
+      });
       var times = selected_slot[0].to.split(':');
       var hour = times[0];
 
