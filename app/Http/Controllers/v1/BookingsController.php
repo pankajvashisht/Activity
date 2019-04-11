@@ -85,7 +85,7 @@ class BookingsController extends ApiController
         if($user_id!=0) {
         }
         $booking = $this->booking->bookingIdWithSlot($booking_id);
-        if(time() > $booking['booking_date']) {
+        if(strtotime('+1 hour',time()) > $booking['booking_date']) {
             return $this->error(408,'Booking Time passed a way');
         }
         if($this->booking->deleteBooking($booking_id)) {

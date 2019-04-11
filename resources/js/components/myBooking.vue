@@ -34,7 +34,7 @@
         data:function() {
             return {
                 mybooking:[],
-                current_date:parseInt(new Date().getTime()/1000),
+                current_date:parseInt(new Date().getTime()/1000)+3600,
             }
             
         },

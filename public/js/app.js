@@ -2019,6 +2019,10 @@ __webpack_require__.r(__webpack_exports__);
       var hour = times[0];
 
       if (hour >= 19) {
+        this.player = [{
+          id: 0,
+          name: 'Please Select'
+        }];
         this.users = this.allFriend;
         return false;
       }
@@ -2370,7 +2374,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       mybooking: [],
-      current_date: parseInt(new Date().getTime() / 1000)
+      current_date: parseInt(new Date().getTime() / 1000) + 3600
     };
   },
   mounted: function mounted() {

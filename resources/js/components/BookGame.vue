@@ -228,6 +228,12 @@ export default {
             let times = selected_slot[0].to.split(':');
             let hour = times[0];
             if(hour>=19){
+                this.player = [
+                    {
+                    id:0,
+                    name:'Please Select' 
+                    }
+                ]
                 this.users = this.allFriend;
                 return false;
             }
