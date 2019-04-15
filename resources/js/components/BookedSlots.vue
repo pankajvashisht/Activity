@@ -9,10 +9,7 @@
                 <div class="col-3">
                     <div class="form-group">
                         <label for="sel1">Select Game:</label>
-                        <select class="form-control" required="true" v-on:change="getbooking()" v-model="game_id">
-                                <option value="0">--Please select Game--</option>
-                                <option v-for="game in games" v-bind:key="game.id" v-bind:value="game.id">{{game.name}}</option>
-                        </select>
+                            <Games  @change="updateGame($event)"></Games>
                     </div>
                 </div>
                 <div class="col-3">
@@ -42,6 +39,9 @@
                     </div>
                 </div>
             </div>
+             <div class="col-3 mb-5" v-show="is_loading">
+                <vcl-instagram></vcl-instagram>   
+            </div>   
              <div class="col-3 mb-5" v-for="booking in  allBooking" v-bind:key="booking.id">
                 <div class="card">
                     <div class="card-header  text-white bg-info">
@@ -69,6 +69,8 @@
 </template>
 
 <script>
+import Games from './FormCompents/Games';
+import VclInstagram from 'vue-content-loading';
 export default {
     data:function() {
         return {
@@ -77,8 +79,13 @@ export default {
             temp_array:[],
             slots:[],
             game_id:0,
-            slot_id:0
+            slot_id:0,
+            is_loading:true
         }    
+    },
+    components:{
+        Games,
+        VclInstagram
     },
     filters: {
         //todo
@@ -93,32 +100,18 @@ export default {
                 response.data.body = response.data.body.sort((a,b) => a.booking.booking_date-b.booking.booking_date);    
                 this.allBooking= response.data.body;
                 this.temp_array = response.data.body;
+                this.is_loading =  false;
         }).catch((error) => {
                 console.error(error);
         })
-
-        this.axios.get('api/v1/games', {
+        this.axios.get('api/v1/slot/', {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization-key': this.$auth_key
                 },
             })
             .then((response) => {
-               this.games= response.data.body;
-               
-            })
-            .catch((error) => {
-                console.error(error);
-         })
-
-         this.axios.get('api/v1/slot/', {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization-key': this.$auth_key
-                },
-            })
-            .then((response) => {
-               this.slots= response.data.body;
+               this.slots = response.data.body;
             })
             .catch((error) => {
                 console.error(error);
@@ -134,7 +127,10 @@ export default {
             var time = date + '-' + month + '-' + year;
             return time;
         },
-
+        updateGame:function(game_id){
+            this.game_id = game_id;
+            this.getbooking();
+        },
         getbooking:function(){
             this.allBooking = this.temp_array;
             this.allBooking = this.allBooking.filter((value) => {

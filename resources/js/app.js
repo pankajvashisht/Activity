@@ -4,6 +4,9 @@ import VueAxios from 'vue-axios';
 import VueAuthenticate from 'vue-authenticate'
 import axios from 'axios';
 import navBar from './components/navBar';
+import Games from './components/FormCompents/Games.vue';
+import route from './Routes/routes';
+
 Vue.use(VueAxios, axios)
 Vue.use(VueAuthenticate, {
   baseUrl: '/api/v1/', 
@@ -25,8 +28,8 @@ Vue.prototype.$auth_key = document.querySelector("meta[name='auth-key']").getAtt
 if(localStorage.getItem("users")!= undefined){
   Vue.prototype.authuser=localStorage.getItem("users");
 }
-console.log(localStorage.getItem("users"));
-import route from './Routes/routes';
+
+
 let app = new Vue({
     el: '#app',
     router:new VueRouter(route),
@@ -36,7 +39,7 @@ let app = new Vue({
       }
     },
     components:{
-      navbar:navBar
+      navbar:navBar,
+      Games:Games
     }
-   
 })

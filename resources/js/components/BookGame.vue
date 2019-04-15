@@ -10,10 +10,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="sel1">Select Game:</label>
-                    <select class="form-control" required="true" v-on:change="getSlot(0)" v-model="game_id">
-                            <option value="0">--Please select Game--</option>
-                            <option v-for="game in games" v-bind:key="game.id" v-bind:value="game.id">{{game.name}}</option>
-                    </select>
+                      <Games  @change="updateGame($event)"></Games>
                 </div>
             </div>
             <div class="col-6">
@@ -67,6 +64,7 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker';
+import Games from './FormCompents/Games';
 export default {
   name: 'booking',
   data:function() {
@@ -98,23 +96,15 @@ export default {
             
             }
   },components: {
-             Datepicker
-  },mounted() {
-        this.axios.get('api/v1/games', {
-            headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization-key': this.$auth_key
-                    },
-                })
-                .then((response) => {
-                this.games= response.data.body;
-                
-                })
-                .catch((error) => {
-                    console.error(error);
-        })
+        Datepicker,
+        Games
+  },created() {
         this.getFriend();
   }, methods:{
+      updateGame:function(game_id){
+          this.game_id = game_id;
+          this.getSlot(0);
+      },
       getSlot:function(type)  {
           if(!type){
               this.removeplayer();
