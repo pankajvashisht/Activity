@@ -1,7 +1,7 @@
 <template>
-     <select class="form-control" required="true" v-model="game_id" v-on:change="$emit('change',value=$event.target.value)" >
+     <select class="form-control"  required="true" v-model="game_id" v-on:change="$emit('change',$event.target.value,games)" >
         <option :selected="true" value="0">--Please select Game--</option>
-        <option v-for="game in games" v-bind:key="game.id" v-bind:value="game.id">{{game.name}}</option>
+        <option v-for="game in games"  v-bind:key="game.id" v-bind:value="game.id">{{game.name}}</option>
     </select>
 </template>
 <script>

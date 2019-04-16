@@ -10,7 +10,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="sel1">Select Game:</label>
-                      <Games  @change="updateGame($event)"></Games>
+                      <Games  @change="updateGame"></Games>
                 </div>
             </div>
             <div class="col-6">
@@ -101,7 +101,8 @@ export default {
   },created() {
         this.getFriend();
   }, methods:{
-      updateGame:function(game_id){
+      updateGame:function(game_id,games){
+          this.games =  games;
           this.game_id = game_id;
           this.getSlot(0);
       },
