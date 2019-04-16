@@ -5,7 +5,6 @@
     <p>The slot for playing any game is 15 minutes in any case (Carrom/Chess/Table Tennis/Pool Table etc)</p>
     <p>TIME TO PLAY:</p>
     <p>-The Playing hours will be from 12 pm -7.30 pm.</p>
-    <p>- During Tea breaks<br />- During lunch Time<br />- After 6:45 pm</p>
     <p>Note: Every employee is entitled to play for a maximum of 2 times in a week.</p>
     <p>For Instance: If A and B have played on Monday and Tuesday, they won&rsquo;t be getting any other slot for that week.</p>
     <p>-During playtime, nobody is allowed to stand nearby the players just to watch the game specifically during working hours. Game time should not extend more than (15 min) as mentioned above. Work is our priority, please make sure to adhere with the timings so that work does not hamper.</p>

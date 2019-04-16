@@ -2274,7 +2274,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
@@ -8040,14 +8039,6 @@ var staticRenderFns = [
       _c("p", [_vm._v("TIME TO PLAY:")]),
       _vm._v(" "),
       _c("p", [_vm._v("-The Playing hours will be from 12 pm -7.30 pm.")]),
-      _vm._v(" "),
-      _c("p", [
-        _vm._v("- During Tea breaks"),
-        _c("br"),
-        _vm._v("- During lunch Time"),
-        _c("br"),
-        _vm._v("- After 6:45 pm")
-      ]),
       _vm._v(" "),
       _c("p", [
         _vm._v(
