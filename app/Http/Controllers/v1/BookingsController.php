@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\v1\ApiController;
 use App\Repositories\Booking\BookingRepository;
 use Illuminate\Support\Facades\Validator;
+use Artisan;
 
 
 class BookingsController extends ApiController
@@ -61,6 +62,7 @@ class BookingsController extends ApiController
             ];
         }
         $this->booking->addMember($add_booking);
+        Artisan::queue('bookingMail:send', ['booking_id' => $booking_id]); 
     }
 
     private static function  names($users){

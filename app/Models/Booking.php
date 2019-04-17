@@ -9,15 +9,6 @@ class Booking extends Model
  
     protected $fillable=['slot_id','game_id','user_id','players','booking_date'];    
 
-    protected static function boot(){
-        parent::boot();
-        static::created(function ($booking){
-            // Mail::to('pankaj@ucreate.co.in')->send(
-            //     new BookingMail($booking)
-            // );
-        });
-    }
-
     public function game(){
         return $this->belongsTo('App\Models\Game');
     }

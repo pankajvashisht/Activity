@@ -60,13 +60,23 @@ class BookingRepository implements BookingInterface
             endforeach; 
             $users = $this->user_booking->with('user:id,email,name,social_image')
             ->whereIn('booking_id',$booking_ids)
-            //->where('user_id','!=',$user_id)
             ->get()->toArray();
             foreach($booking as $key => $value){
                 $booking[$key]['players'] = self::getBookinguser($users,$value['booking_id']); 
             }
           }
           return $booking;      
+    }
+
+    public  function bookingDetails(int $booking_id){
+        return $this->user_booking
+                ->select(['booking_id','user_id'])
+                ->with('user:id,email,name,social_image')
+                ->with(['booking' => function ($query) {
+                    $query->with('game:id,name,image')->with('slot:id,to,from')->with('user:id,name,email');
+                 }])
+                ->where('booking_id','=',$booking_id)
+                ->get()->toArray();
     }
 
 

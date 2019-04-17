@@ -16,9 +16,11 @@ class Booking extends Mailable
      *
      * @return void
      */
-    public function __construct()
-    {
-        //
+    public  $booking;
+
+    public function __construct($booking)
+    {   
+        $this->booking = $booking;
     }
 
     /**
@@ -27,7 +29,8 @@ class Booking extends Mailable
      * @return $this
      */
     public function build()
-    {
-        return $this->markdown('emails.booking');
+    {  
+        return $this->markdown('emails.booking')
+        ->subject('Ucreate Game Slot Booking');
     }
 }
