@@ -218,7 +218,7 @@ export default {
             let selected_slot = this.slots.filter(data => this.slot_id==data.id);
             let times = selected_slot[0].to.split(':');
             let hour = times[0];
-            if(hour>=19){
+            if(hour>=19) {
                 this.player = [
                     {
                     id:0,

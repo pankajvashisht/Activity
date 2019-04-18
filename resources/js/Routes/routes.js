@@ -65,7 +65,14 @@ export default {
             meta: {
                 auth: true
             }
-        }
+        },{
+            path:'/',
+            component:login,
+            name:'login',
+            meta: {
+                auth: true
+            }
+        },
      
 
     ]
