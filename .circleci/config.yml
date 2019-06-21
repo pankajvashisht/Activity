@@ -1,0 +1,15 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: ucreateit/php7.2:v0.2
+    steps:
+      - checkout
+      - run:
+          - name: Print Hello
+          - command: echo 'Hello'
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - test

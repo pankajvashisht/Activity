@@ -5,7 +5,8 @@ import callback from '../components/callback';
 import Booking from '../components/BookGame';
 import MyBooking from '../components/myBooking';
 import BookedSlots from '../components/BookedSlots.vue';
-import Rules from '../components/Rules'
+import Rules from '../components/Rules';
+
 export default {
     mode:"history",
     routes:[

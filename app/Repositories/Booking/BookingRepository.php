@@ -68,6 +68,11 @@ class BookingRepository implements BookingInterface
           return $booking;      
     }
 
+    public function allbooking(){
+        return $this->user_booking->select(DB::raw('count(user_id) as total_pay'))->with('user:id,email,name,social_image')->groupBy('user_id')
+            ->get()->toArray();
+    }
+
     public  function bookingDetails(int $booking_id){
         return $this->user_booking
                 ->select(['booking_id','user_id'])
@@ -81,7 +86,7 @@ class BookingRepository implements BookingInterface
 
 
     public function AllBookings(){
-        $current_week= currentWeek();
+        $current_week = currentWeek();
         $time = strtotime('-6 hour',time());
         $booking = $this->user_booking
                ->select('booking_id')
@@ -94,7 +99,7 @@ class BookingRepository implements BookingInterface
          if(count($booking)>0){       
            $booking_ids=[];       
            foreach($booking as $val):
-               $booking_ids[]=$val['booking_id'];
+               $booking_ids[] = $val['booking_id'];
            endforeach; 
            $users = $this->user_booking->with('user:id,email,name,social_image')
            ->whereIn('booking_id',$booking_ids)
@@ -131,7 +136,7 @@ class BookingRepository implements BookingInterface
     }
 
     public function findMemberStatus(array $users){
-        $current_week= currentWeek();
+        $current_week = currentWeek();
         $data = $this->user_booking
                 ->with('user:id,name')
                 ->select('user_id')
@@ -149,7 +154,7 @@ class BookingRepository implements BookingInterface
 
     public function deleteBooking($booking_id){
         DB::beginTransaction();
-        if($this->model->where('id', '=', $booking_id)->delete()){
+        if($this->model->where('id', '=', $booking_id)->delete()) {
             $this->user_booking->where('booking_id','=',$booking_id)
             ->delete();
         }

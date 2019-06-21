@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Repositories\Booking\BookingRepository;
 
 class HomeController extends Controller
 {
@@ -11,9 +12,11 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    protected $booking;
+    public function __construct(BookingRepository $booking)
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
+        $this->booking = $booking;
     }
 
     /**
@@ -23,6 +26,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $data = $this->booking->allbooking();
+        echo "<pre>";
+        print_r($data);
+        die;
         return view('home');
     }
 }

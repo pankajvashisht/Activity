@@ -15,8 +15,8 @@ class CheckAuthKey
      */
     public function handle($request, Closure $next)
     {
-        $user=new CheckAuth($request);
-        $auth=$user->validateUser();
+        $user = new CheckAuth($request);
+        $auth = $user->validateUser();
         if(json_decode($auth)!=JSON_ERROR_NONE){
             return $next($request);
         }

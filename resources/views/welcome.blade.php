@@ -29,7 +29,7 @@
     </head>
     <body>
     <div id="app">
-        @if(Auth::user()):
+        @if(Auth::user())
             <navbar></navbar>
          @endif
                 <template >
