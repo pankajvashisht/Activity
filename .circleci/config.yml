@@ -1,16 +1,17 @@
 version: 2
 jobs:
-  test:
+  first_job:
+    working_directory: ~/Activity
     docker:
       - image: ucreateit/php7.2:v0.2
     steps:
       - checkout
       - run:
-        - name: Print Hello
-        - command: echo 'Hello'
+          name: Print Hello
+          command: echo 'Hello'
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - test
+      - first_job
 
